@@ -25,6 +25,14 @@ public class CategoryServiceImpl  {
      @Resource
      private CategoryMapper mapper;
 
+    public List<Category> getAll() {
+
+        return mapper.getAll();
+
+    }
+
+
+
      public Category getById(BigInteger id) {
 
          return mapper.getById(id);
@@ -54,10 +62,6 @@ public class CategoryServiceImpl  {
     return mapper.extractById(id);
     }
 
-    public List<Category> getAll() {
-         return mapper.getAll();
-
-    }
 
 
      // 获取所有父类目
@@ -65,10 +69,27 @@ public class CategoryServiceImpl  {
          return mapper.getByParentAll();
      }
 
-     //获取父类目下子类目数据
+     //获取父类目下子类目数据(二级分类）
      public List<Category> getCategoryAll(BigInteger parentId) {
          return mapper.getCategoryAll(parentId);
      }
+
+
+    // 获取子类目列表
+    public List<Category> getCategories() {
+         return mapper.getCategories();
+     }
+
+     // 获取类目下商品列表
+    public List<Goods> getGoodsByCategoryId(BigInteger categoryId,int page,int pageSize) {
+         return mapper.getGoodsByCategoryId(categoryId,page,pageSize);
+    }
+
+    // 获取类目下的商品总数
+    public Long getCategoryGoodsCount(BigInteger categoryId) {
+        return mapper.getCategoryGoodsCount(categoryId);
+    }
+
 
 
      //创建商品类目

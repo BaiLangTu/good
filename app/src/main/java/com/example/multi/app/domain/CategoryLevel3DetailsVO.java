@@ -8,12 +8,16 @@ import java.util.List;
 
 @Data
 @Accessors(chain = true)
-public class CategoryItemVo {
+public class CategoryLevel3DetailsVO {
 
     private BigInteger id;
+
+    private BigInteger parentId;
 
     private String name;
 
     private String image;
+
+    private List<GoodsVo> goodsVosList;
 
 }

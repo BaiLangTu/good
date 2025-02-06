@@ -16,6 +16,7 @@ public class ParentCategoryV0 {
 
     private String image;
 
-    private List<CategoryItemVo> categoryList;
+    private List<CategoryItemVo> subCategories;
+
 
 }

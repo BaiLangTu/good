@@ -1,11 +1,10 @@
 package com.example.multi.console.controller;
 
-import com.example.multi.console.controller.domain.ConsoleInfoVo;
-import com.example.multi.console.controller.domain.ConsoleItemVo;
-import com.example.multi.console.controller.domain.ConsoleListVo;
-import com.example.multi.console.controller.domain.ConsoleVo;
+import com.example.multi.console.controller.domain.*;
+import com.example.multi.entity.Category;
 import com.example.multi.entity.Goods;
 import com.example.multi.server.GoodsService;
+import com.example.multi.server.impl.CategoryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +25,9 @@ import java.util.List;
 public class GoodsController {
     @Autowired
     private GoodsService goodsService;
+
+    @Autowired
+    private CategoryServiceImpl categoryService;
 
 
     @RequestMapping("goods/console_list")
@@ -97,6 +99,37 @@ public class GoodsController {
 
     }
 
+    @RequestMapping("/goods/console/categories/tree")
+    public CategoryTree categoryTree() {
+        // 获取所有类目
+        List<Category> categories = categoryService.getAll();
+
+
+        List<CategoryVO> categoryList = buildCategoryTree(categories,null);
+
+        // 封装返回结果
+        CategoryTree categoryTree = new CategoryTree();
+        categoryTree.setData(categoryList);
+
+        return categoryTree;
+    }
+
+    // 递归构建类目树
+    private List<CategoryVO> buildCategoryTree(List<Category> categories, BigInteger parentId) {
+        List<CategoryVO> result = new ArrayList<>();
+        for (Category category : categories) {
+            if (category.getParentId() == null && parentId == null || category.getParentId() != null && category.getParentId().equals(parentId)) {
+                // 构建子类目树
+                CategoryVO categoryVO = new CategoryVO();
+                categoryVO.setId(category.getId());
+                categoryVO.setName(category.getName());
+                categoryVO.setChildren(buildCategoryTree(categories, category.getId()));  // 递归获取子类目
+                result.add(categoryVO);
+            }
+        }
+            return result;
+
+        }
 
     @RequestMapping("/goods/add")
     public ConsoleVo addGoods(@RequestParam(name = "goodsId" ,required = false ) BigInteger goodsId,
@@ -133,6 +166,7 @@ public class GoodsController {
 
         return consoleVo;
     }
+
 
     @RequestMapping("/goods/update")
     public ConsoleVo updateGoods(

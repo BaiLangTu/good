@@ -35,6 +35,7 @@ public class GoodsController {
     @RequestMapping("/goods/category_list")
     public ParentVo getCategoryAll() {
 
+
         // 获取父类目数据
         List<Category> parentCategory = categoryService.getByParentAll();
 
@@ -54,25 +55,135 @@ public class GoodsController {
             for (Category category : categoryList) {
                 CategoryItemVo categoryItemVo = new CategoryItemVo();
                 categoryItemVo.setId(category.getId());
-                categoryItemVo.setParentId(category.getParentId());
                 categoryItemVo.setName(category.getName());
                 categoryItemVo.setImage(category.getImage());
                 categoryItemVoList.add(categoryItemVo);
-
             }
             // 子类目列表放在父类目中
-            parentCategoryV0.setCategoryList(categoryItemVoList);
-
+            parentCategoryV0.setSubCategories(categoryItemVoList);
             // 将parentCategoryV0内容添加到parentCategoryV0List列表
             parentCategoryV0List.add(parentCategoryV0);
 
         }
-
         ParentVo parentVo = new ParentVo();
-        parentVo.setParentList(parentCategoryV0List);
+        parentVo.setCategories(parentCategoryV0List);
         return parentVo;
+    }
+
+
+    @RequestMapping("/goods/category_goods")
+    public CategoryGoodsVO getCategoryGoodsItem(@RequestParam(name = "categoryId", required = false) BigInteger categoryId,
+                                                @RequestParam(name = "wp", required = false) String wp) {
+
+        int page;
+        int pageSize;
+        if (wp != null) {
+            // Base64解码
+            String decodedWp = URLDecoder.decode(wp, StandardCharsets.UTF_8);
+
+            byte[] decodedBytes = Base64.getDecoder().decode(decodedWp);
+            String jsonString = new String(decodedBytes, StandardCharsets.UTF_8);
+
+            String decodeWp = URLDecoder.decode(jsonString, StandardCharsets.UTF_8);
+            System.out.println("JSON string: " + decodeWp);
+
+            // 解析 JSON 字符串为 Wp 对象
+            Wp wpJson = JSON.parseObject(decodeWp, Wp.class);
+            page = wpJson.getPage();
+            pageSize = wpJson.getPageSize();
+        } else {
+            page = 1;
+            pageSize = 10;
+
+        }
+
+        // 获取类目数据
+        List<Category> parentCategory = categoryService.getCategories();
+
+        List<CategoryVO> categories = parentCategory.stream()
+                .map(parentCategories -> {
+                    CategoryVO categoryVO = new CategoryVO();
+                    categoryVO.setId(parentCategories.getId());
+                    categoryVO.setName(parentCategories.getName());
+                    categoryVO.setImage(parentCategories.getImage());
+                    return categoryVO;
+                }).collect(Collectors.toList());
+
+
+
+        // 获取商品数据
+        List<Goods> goodsList = categoryService.getGoodsByCategoryId(categoryId, page, pageSize);
+
+        // 创建商品展示对象列表
+        List<GoodsItemVo> goodsVoList = new ArrayList<>();
+
+
+        // 获取商品分类id
+        List<BigInteger> ids = goodsList.stream()
+                .map(Goods::getCategoryId)  // 提取每个商品的分类ID
+                .collect(Collectors.toList());  // 将结果收集到一个List中
+
+        List<Category> categoryList = categoryService.getByIds(ids);
+
+        // 创建 HashMap
+        Map<BigInteger, String> categoryMap = new HashMap<>();
+        // 循环分类列表
+        for (Category category : categoryList) {
+
+            // 上传HashMap的键值对
+            categoryMap.put(category.getId(), category.getName());
+        }
+
+        // 遍历商品列表，将每个商品转换为 goodsItemVO
+        for (Goods goods : goodsList) {
+
+            GoodsItemVo goodsItemVo = new GoodsItemVo();
+
+            // 判断类目id是否为空，若为空跳过商品，若不为空则在map里获取类目信息
+            String categoryName = categoryMap.get(goods.getCategoryId());
+
+            if (categoryName == null) {
+                continue;
+            }
+
+            // 将轮播图图片用 “ $ ” 连接
+            String[] images = goods.getGoodsImages().split("\\$");
+
+            Utility utility = new Utility();
+
+            // 获取图片信息，包含 AR 和 URL
+            ImageInfo imageInfo = utility.getImageInfo(images[0]);
+
+            goodsItemVo.setId(goods.getId())
+                    .setCategoryName(categoryName)
+                    .setGoodsImage(imageInfo)
+                    .setTitle(goods.getTitle())
+                    .setPrice(goods.getPrice())
+                    .setSales(goods.getSales());
+            goodsVoList.add(goodsItemVo);
+
+        }
+
+        //创建对象设置商品列表最终返回
+        GoodsVo goodsVo = new GoodsVo();
+        Utility utility = new Utility();
+        goodsVo.setList(goodsVoList);
+
+        // 判断是否是最后一页（分页结束），如果当前页获取到的商品数量小于每页数量说明分页结束
+        Boolean isEnd = goodsList.size() < pageSize;
+        String nextWp = utility.categoryWp(categoryId,page + 1, pageSize); // 自动生成下一页
+        goodsVo.setWP(nextWp);
+        goodsVo.setIsEnd(isEnd);
+
+        // 5. 返回最终数据
+        CategoryGoodsVO categoryGoodsVO = new CategoryGoodsVO();
+        categoryGoodsVO.setCategories(categories);  // 类目列表
+        categoryGoodsVO.setGoodsItem(goodsVo);  // 商品分页列表
+
+        return categoryGoodsVO;
 
     }
+
 
     @RequestMapping("/goods/list")
     public GoodsVo getGoodsAll(@RequestParam(name = "keyword", required = false) String keyword,
@@ -140,7 +251,7 @@ public class GoodsController {
 
             // 判断类目id是否为空，若为空跳过商品，若不为空则在map里获取类目信息
             String categoryName = categoryMap.get(goods.getCategoryId());
-            ;
+
             if (categoryName == null) {
                 continue;
             }
@@ -152,8 +263,6 @@ public class GoodsController {
 
             // 获取图片信息，包含 AR 和 URL
             ImageInfo imageInfo = utility.getImageInfo(images[0]);
-
-
 
             goodsItemVo.setId(goods.getId())
                     .setCategoryName(categoryName)

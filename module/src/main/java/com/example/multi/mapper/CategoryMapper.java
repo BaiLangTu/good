@@ -4,6 +4,7 @@ package com.example.multi.mapper;
 
 
 import com.example.multi.entity.Category;
+import com.example.multi.entity.Goods;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -27,7 +28,7 @@ List<BigInteger> selectIdByTitle(@Param("title") String title);
 
 // 根据ID查询操作
 @Select("SELECT * FROM category WHERE id = #{id} AND is_deleted=0")
-Category getById(@Param("id")BigInteger id);
+Category getById(@Param("id") BigInteger id);
 
 // 根据ID查询数据
 @Select("SELECT * FROM category WHERE id in (${ids} ) AND is_deleted = 0")
@@ -45,6 +46,19 @@ List<Category> getByParentAll();
 @Select("SELECT * FROM category WHERE parent_id = #{parentId}")
 List<Category> getCategoryAll(@Param("parentId") BigInteger parentId);
 
+
+// 子类目类列表
+@Select("SELECT * FROM category WHERE parent_id IS NOT NULL")
+List<Category> getCategories();
+
+// 类目下商品列表
+
+@Select("SELECT * FROM goods WHERE category_id = #{categoryId} LIMIT #{limit} OFFSET #{offset}")
+List<Goods> getGoodsByCategoryId(@Param("categoryId") BigInteger categoryId,@Param("offset") int offset, @Param("limit") int limit);
+
+// 获取商品总数
+@Select("select count(*) from goods WHERE category_id = #{categoryId}")
+Long getCategoryGoodsCount(@Param("categoryId") BigInteger categoryId);
 // 插入操作
 int insert(@Param("category")Category category);
 

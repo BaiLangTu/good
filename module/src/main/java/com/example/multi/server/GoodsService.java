@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.math.BigInteger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -70,6 +71,8 @@ public class GoodsService {
     public Long count() {
         return goodsMapper.getCount();
     }
+
+
 
 
     // 新增修改

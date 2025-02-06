@@ -3,6 +3,7 @@ package com.example.multi.mapper;
 
 
 import com.example.multi.dto.GoodsDTO;
+import com.example.multi.entity.Category;
 import com.example.multi.entity.Goods;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -23,7 +24,6 @@ public interface GoodsMapper  {
     // 获取列表信息｜｜查询商品
     List<Goods> getAll(@Param("title") String title,@Param("offset") int offset,@Param("limit") int limit,@Param("ids") String ids);
 
-
     // 获取列表信息｜｜查询商品（ 连表方式 ）
     List<GoodsDTO> getGoodsDtoAll(@Param("title") String title, @Param("offset") int offset, @Param("limit") int limit);
 
@@ -41,6 +41,10 @@ public interface GoodsMapper  {
 
     @Update("update goods set is_deleted = 1,updated_time = #{time} where category_id=#{category_id} limit 1")
     int deleteCategory(@Param("category_id") BigInteger id, @Param("time") Integer time);
+
+
+
+
 
 
 }
