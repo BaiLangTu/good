@@ -1,10 +1,11 @@
-package com.example.multi.app.utility;
+package com.example.multi.utility;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
+
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

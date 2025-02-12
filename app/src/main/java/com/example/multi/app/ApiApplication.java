@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 
-@SpringBootApplication(scanBasePackages = {"com.example.multi.app","com.example.multi.server"})
+@SpringBootApplication(scanBasePackages = {"com.example.multi.app","com.example.multi.*"})
 @MapperScan("com.example.multi.mapper")
 public class ApiApplication {
     public static void main(String[] args) {

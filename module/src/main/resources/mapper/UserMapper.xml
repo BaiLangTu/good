@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//myvatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.multi.mapper.UserMapper">
+
+    <insert id="userInsert"
+            parameterType="com.example.multi.entity.User">
+        insert into user (
+        <if test="user.phone != null and user.phone !=''">phone,</if>
+        <if test="user.password != null and user.password !=''">password,</if>
+        <if test="user.name != null and user.name !=''">name,</if>
+        <if test="user.avatar != null and user.avatar !=''">avatar,</if>
+        <if test="user.salt != null and user.salt !=''">salt,</if>
+        <if test="user.createdTime != null and user.createdTime !=''">created_time,</if>
+        <if test="user.updatedTime != null and user.updatedTime !=''">updated_time,</if>
+        is_deleted
+        )
+        values (
+        <if test="user.phone != null and user.phone !=''">#{user.phone},</if>
+        <if test="user.password != null and user.password !=''">#{user.password},</if>
+        <if test="user.name != null and user.name !=''">#{user.name},</if>
+        <if test="user.avatar != null and user.avatar !=''">#{user.avatar},</if>
+        <if test="user.salt != null and user.salt !=''">#{user.salt},</if>
+        <if test="user.createdTime != null and user.createdTime !=''">#{user.createdTime},</if>
+        <if test="user.updatedTime != null and user.updatedTime !=''">#{user.updatedTime},</if>
+        #{user.isDeleted}
+        )
+    </insert>
+
+
+</mapper>

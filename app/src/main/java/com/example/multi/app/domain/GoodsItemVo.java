@@ -1,5 +1,6 @@
 package com.example.multi.app.domain;
 
+import com.example.multi.wrapper.ImageInfo;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
