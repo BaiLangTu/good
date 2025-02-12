@@ -5,6 +5,7 @@ import com.example.multi.wrapper.ImageInfo;
 import com.example.multi.wrapper.Wp;
 import org.apache.commons.codec.digest.DigestUtils;
 
+import java.math.BigInteger;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
@@ -20,6 +21,28 @@ public class Utility {
         wp1.setPage(page);
         wp1.setPageSize(pageSize);
         wp1.setName(keyword);
+
+        // JSON 序列化
+        String jsonString = JSON.toJSONString(wp1);
+
+        // Base64 编码
+        String base64Encoded = Base64.getEncoder().encodeToString(jsonString.getBytes(StandardCharsets.UTF_8));
+        String urlEncode = URLEncoder.encode(base64Encoded);
+        return urlEncode;
+
+//        // URL 编码
+//        try {
+//            return URLEncoder.encode(base64Encoded, StandardCharsets.UTF_8.toString());
+//        } catch (UnsupportedEncodingException e) {
+//            throw new RuntimeException(e);
+//        }
+    }
+
+    public String categoryWp(BigInteger categoryId, int page, int pageSize) {
+        Wp wp1 = new Wp();
+        wp1.setPage(page);
+        wp1.setPageSize(pageSize);
+        wp1.setCategoryId(categoryId);
 
         // JSON 序列化
         String jsonString = JSON.toJSONString(wp1);
