@@ -3,6 +3,7 @@ package com.example.multi.server;
 import com.example.multi.entity.User;
 import com.example.multi.mapper.UserMapper;
 import com.example.multi.utility.AliOssUtility;
+import com.example.multi.utility.SignUtils;
 import com.example.multi.utility.Utility;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -52,7 +53,46 @@ public class UserService {
 
         return userMapper.findByPhone(phone) != null;
 
+    }
 
+    // 根据手机号获取用户信息
+    public User getUserByPhone(String phone) {
+        return userMapper.findByPhone(phone);
+
+    }
+
+    // 登录验证帐号和密码
+    public String login(String phone, String password) {
+
+
+        User user = userMapper.findByPhone(phone);
+        if (user == null) {
+            return "用户不存在";
+        }
+
+        // 工具类对象
+        Utility utility = new Utility();
+
+        // 生成盐
+        String salt = user.getSalt();
+        // MD5加盐加密
+        String encryptPassword = utility.encryptToMd5(password,salt);
+
+        // 验证密码是否正确
+        if (!encryptPassword.equals(user.getPassword())) {
+            return "密码错误";
+        }
+
+        SignUtils signUtils = new SignUtils();
+
+        // 生成 sign
+        return signUtils.generateSign(user.getId());
+    }
+
+    // 校验 sign 是否有效
+    public boolean validateSign(String sign) {
+        SignUtils signUtils = new SignUtils();
+        return signUtils.validateSign(sign);
     }
 
 }

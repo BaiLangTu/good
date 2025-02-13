@@ -14,4 +14,6 @@ public interface UserMapper {
     // 根据帐号查询用户
     @Select("SELECT * FROM user WHERE phone = #{phone} AND is_deleted = 0")
     User findByPhone(@Param("phone") String phone);
+
+
 }

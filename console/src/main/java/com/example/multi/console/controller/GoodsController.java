@@ -3,13 +3,18 @@ package com.example.multi.console.controller;
 import com.example.multi.console.controller.domain.*;
 import com.example.multi.entity.Category;
 import com.example.multi.entity.Goods;
+import com.example.multi.entity.User;
 import com.example.multi.server.GoodsService;
+import com.example.multi.server.UserService;
 import com.example.multi.server.impl.CategoryServiceImpl;
+import com.example.multi.utility.SignUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.math.BigInteger;
 
 import java.time.Instant;
@@ -29,11 +34,59 @@ public class GoodsController {
     @Autowired
     private CategoryServiceImpl categoryService;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private HttpServletResponse response;
+
+    @RequestMapping("console/login")
+    public LoginVO login(@RequestParam(name = "phone") String phone,
+                         @RequestParam(name = "password") String password) {
+        // 验证用户信息
+        String loginResult = userService.login(phone, password);
+
+        LoginVO loginResponse = new LoginVO();
+
+        if (loginResult.equals("用户不存在") || loginResult.equals("密码错误")) {
+            loginResponse.setMessage("用户名或密码错误");
+        } else {
+
+            User user = userService.getUserByPhone(phone);
+            SignUtils signUtils = new SignUtils();
+            String sign = signUtils.generateSign(user.getId());
+
+            // 登录成功，设置cookie
+            Cookie cookie = new Cookie("sign", sign);  // 创建sign的cookie
+            cookie.setHttpOnly(true);  // 防止JavaScript访问
+            cookie.setMaxAge(60 * 60);  // 设置cookie有效期为1小时
+            response.addCookie(cookie);  // 将cookie添加到响应
+            Login login = new Login();
+            loginResponse.setMessage("登录成功");
+
+            login.setPhone(user.getPhone());
+            login.setPassword(user.getPassword());
+            login.setName(user.getName());
+            login.setAvatar(user.getAvatar());
+            loginResponse.setData(login);
+        }
+        return loginResponse;
+    }
+
 
     @RequestMapping("goods/console_list")
     public ConsoleListVo getConsoleAll(@RequestParam(name = "keyword",required = false) String keyword,
                                        @RequestParam(name = "page") int page,
-                                       @RequestParam(name = "pageSize") int pageSize) {
+                                       @RequestParam(name = "pageSize") int pageSize,
+                                       @RequestParam(name = "sign") String sign) {
+
+        // 验证用户是否登录
+        if (!userService.validateSign(sign)) {
+            // 如果没有登录，返回错误信息
+            ConsoleListVo errorResponse = new ConsoleListVo();
+            errorResponse.setMassage("用户未登录，无法访问数据");
+            return errorResponse;
+        }
 
         // 获取商品数据
         List<Goods> consoleList = goodsService.getAllGoodsInfo(keyword, page, pageSize);

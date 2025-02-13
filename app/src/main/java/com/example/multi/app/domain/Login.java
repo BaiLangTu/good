@@ -5,9 +5,15 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class Register {
+public class Login {
 
-    private String message;
+    private String phone;
+
+    private String password;
+
+    private String name;
+
+    private String avatar;
 
     private String sign;
 }

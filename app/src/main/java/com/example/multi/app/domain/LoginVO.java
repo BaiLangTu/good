@@ -5,9 +5,10 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class Register {
+public class LoginVO {
 
     private String message;
 
-    private String sign;
+    private Login data;
+
 }
