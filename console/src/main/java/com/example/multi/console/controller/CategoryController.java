@@ -2,8 +2,8 @@ package com.example.multi.console.controller;
 
 import com.example.multi.console.domain.ConsoleVo;
 import com.example.multi.entity.Category;
-import com.example.multi.server.GoodsService;
-import com.example.multi.server.impl.CategoryServiceImpl;
+import com.example.multi.service.GoodsService;
+import com.example.multi.service.impl.CategoryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.RequestMapping;

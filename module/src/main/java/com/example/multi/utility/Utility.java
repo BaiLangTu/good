@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 
 public class Utility {
 
-    public String encodeWp(int page, int pageSize, String keyword) {
+    public static String encodeWp(int page, int pageSize, String keyword) {
         Wp wp1 = new Wp();
         wp1.setPage(page);
         wp1.setPageSize(pageSize);
@@ -38,7 +38,7 @@ public class Utility {
 //        }
     }
 
-    public String categoryWp(BigInteger categoryId, int page, int pageSize) {
+    public static String categoryWp(BigInteger categoryId, int page, int pageSize) {
         Wp wp1 = new Wp();
         wp1.setPage(page);
         wp1.setPageSize(pageSize);
@@ -61,7 +61,7 @@ public class Utility {
     }
 
 // ar的获取
-    public ImageInfo getImageInfo(String imageUrl) {
+    public static ImageInfo getImageInfo(String imageUrl) {
         // 正则匹配宽和高
         Pattern pattern = Pattern.compile("_(\\d+)x(\\d+)");  // 假设宽高格式是 _宽x高
         Matcher matcher = pattern.matcher(imageUrl);
@@ -81,7 +81,7 @@ public class Utility {
     }
 
     // 生成盐
-    public String generateSalt() {
+    public static String generateSalt() {
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[16];
         random.nextBytes(salt);
@@ -89,7 +89,7 @@ public class Utility {
     }
 
     // 将密码和盐一起进行MD5加密
-    public String encryptToMd5(String password, String salt) {
+    public static String encryptToMd5(String password, String salt) {
         // 将密码和盐合并在一起
         String saltedPassword = password + salt;
 

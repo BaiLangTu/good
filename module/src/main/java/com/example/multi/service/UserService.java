@@ -1,4 +1,4 @@
-package com.example.multi.server;
+package com.example.multi.service;
 
 import com.example.multi.entity.User;
 import com.example.multi.mapper.UserMapper;
@@ -7,7 +7,6 @@ import com.example.multi.utility.Utility;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigInteger;
 
@@ -19,20 +18,18 @@ public class UserService {
     @Resource
     private HttpServletResponse response;
 
-    public String register(String phone, String password, String name, String avatar) {
+    public String insert(String phone, String password, String name, String avatar) {
 
 
         // 检查用户是否已存在
         if (userExist(phone)) {
-            return null;
+            throw new RuntimeException("用户已注册");
         }
-        // 工具类对象
-        Utility utility = new Utility();
 
         // 生成盐
-        String salt = utility.generateSalt();
+        String salt = Utility.generateSalt();
         // MD5加盐加密
-        String encryptPassword = utility.encryptToMd5(password,salt);
+        String encryptPassword = Utility.encryptToMd5(password,salt);
 
 
         int timestamp = (int) (System.currentTimeMillis() / 1000);
@@ -45,10 +42,9 @@ public class UserService {
         user.setAvatar(avatar);
         user.setUpdatedTime(timestamp);
         user.setIsDeleted(0);
-        userMapper.userInsert(user);
-        SignUtils signUtils = new SignUtils();
+        userMapper.insert(user);
 
-        String sign = signUtils.generateSign(user.getId());
+        String sign = SignUtils.generateSign(user.getId());
 
         // 注册成功后，立即生成 sign
         return sign; // 直接返回 sign
@@ -68,8 +64,8 @@ public class UserService {
 
 
     // 检查用户是否存在
-    public User isUserExist(BigInteger userId) {
-        return userMapper.isUserExist(userId);
+    public User getById(BigInteger userId) {
+        return userMapper.getById(userId);
     }
 
     public String login(String phone, String password) {
@@ -90,8 +86,7 @@ public class UserService {
         }
 
         // 登录成功，生成 sign
-        SignUtils signUtils = new SignUtils();
-        String sign = signUtils.generateSign(user.getId());
+        String sign = SignUtils.generateSign(user.getId());
         return sign;
 
     }
@@ -101,15 +96,16 @@ public class UserService {
 
     // 从 Sign 中提取 UserId
     public BigInteger getUserIdFromSign(String sign) {
-        SignUtils signUtils = new SignUtils();
-        return signUtils.getUserIdFromSign(sign);
+        return SignUtils.getUserIdFromSign(sign);
     }
 
     // 校验 sign 是否有效
     public boolean validateSign(String sign,BigInteger expectedUserId) {
-        SignUtils signUtils = new SignUtils();
-        return signUtils.validateSign(sign,expectedUserId);
+        return SignUtils.validateSign(sign,expectedUserId);
     }
+
+    // 删除商品
+    public int deleteGoods(BigInteger id){ return userMapper.delete(id,(int)(System.currentTimeMillis() / 1000)); }
 
 
 

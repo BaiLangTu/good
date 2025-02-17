@@ -1,4 +1,4 @@
-package com.example.multi.server;
+package com.example.multi.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;

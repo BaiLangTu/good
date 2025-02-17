@@ -5,9 +5,9 @@ import com.example.multi.console.domain.*;
 import com.example.multi.entity.Category;
 import com.example.multi.entity.Goods;
 import com.example.multi.entity.User;
-import com.example.multi.server.GoodsService;
-import com.example.multi.server.UserService;
-import com.example.multi.server.impl.CategoryServiceImpl;
+import com.example.multi.service.GoodsService;
+import com.example.multi.service.UserService;
+import com.example.multi.service.impl.CategoryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -92,7 +92,7 @@ public class GoodsController {
             // 如果没有登录，返回错误信息
             ConsoleListVo errorResponse = new ConsoleListVo();
 
-            if (userService.isUserExist(userIdFromSign)==null) {
+            if (userService.getById(userIdFromSign)==null) {
                 errorResponse.setMassage("用户ID不存在，非法访问数据");
             } else {
                 errorResponse.setMassage("用户未登录，无法访问数据");

@@ -7,13 +7,13 @@ import javax.crypto.spec.SecretKeySpec;
 import java.math.BigInteger;
 import java.util.Base64;
 
-public class SignUtils {
+ public class SignUtils {
 
-    private static final String SECRET_KEY = "your-secret-key";  // 可以在配置中管理
+    private static final String SECRET_KEY = "xiaobai115";
     private static final long EXPIRATION_TIME = 3600 * 1000;  // 1小时过期时间
 
     // 生成 sign
-    public String generateSign(BigInteger userId) {
+    public static String generateSign(BigInteger userId) {
         int expireTime = (int) (System.currentTimeMillis()*1000 + EXPIRATION_TIME);  // 1小时过期时间
         Sign signObject = new Sign(userId,expireTime);
 
@@ -31,7 +31,7 @@ public class SignUtils {
     }
 
     // 验证 sign 是否有效
-    public  boolean validateSign(String sign,BigInteger expectedUserId) {
+    public static boolean validateSign(String sign,BigInteger expectedUserId) {
         try {
             // 解码 sign
             byte[] decodedBytes = Base64.getDecoder().decode(sign);
@@ -55,7 +55,7 @@ public class SignUtils {
     }
 
     // 获取 sign 中的 userId
-    public BigInteger getUserIdFromSign(String sign) {
+    public static BigInteger getUserIdFromSign(String sign) {
         try {
             // 解码 sign
             byte[] decodedBytes = Base64.getDecoder().decode(sign);
@@ -71,7 +71,7 @@ public class SignUtils {
 
 
     // HMAC-SHA256 加密
-    private  String encryptWithHmacSHA256(String data) {
+    private static String encryptWithHmacSHA256(String data) {
         try {
             // 使用 SECRET_KEY 进行加密
             SecretKeySpec secretKey = new SecretKeySpec(SECRET_KEY.getBytes(), "HmacSHA256");

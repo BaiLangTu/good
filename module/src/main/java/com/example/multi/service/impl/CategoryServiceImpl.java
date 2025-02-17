@@ -1,4 +1,4 @@
-package com.example.multi.server.impl;
+package com.example.multi.service.impl;
 
 import com.example.multi.entity.Category;
 import com.example.multi.entity.Goods;
@@ -25,18 +25,11 @@ public class CategoryServiceImpl  {
      @Resource
      private CategoryMapper mapper;
 
-    public List<Category> getAll() {
-
-        return mapper.getAll();
-
-    }
+    public List<Category> getAll() { return mapper.getAll(); }
 
 
 
-     public Category getById(BigInteger id) {
-
-         return mapper.getById(id);
-    }
+     public Category getById(BigInteger id) { return mapper.getById(id); }
 
     public List<Category> getByIds(List<BigInteger> ids) {
 
@@ -58,9 +51,7 @@ public class CategoryServiceImpl  {
 
 
 
-    public Category extractById(BigInteger id) {
-    return mapper.extractById(id);
-    }
+    public Category extractById(BigInteger id) { return mapper.extractById(id); }
 
 
 
@@ -81,9 +72,7 @@ public class CategoryServiceImpl  {
      }
 
      // 获取类目下商品列表
-    public List<Goods> getGoodsByCategoryId(BigInteger categoryId,int page,int pageSize) {
-         return mapper.getGoodsByCategoryId(categoryId,page,pageSize);
-    }
+    public List<Goods> getGoodsByCategoryId(BigInteger categoryId,int page,int pageSize) { return mapper.getGoodsByCategoryId(categoryId,page,pageSize); }
 
     // 获取类目下的商品总数
     public Long getCategoryGoodsCount(BigInteger categoryId) {
@@ -119,9 +108,6 @@ public class CategoryServiceImpl  {
      }
 
     // 删除商品类目
-     public int delete(BigInteger id) {
-
-          return mapper.delete(id, (int) (System.currentTimeMillis() / 1000));
-     }
+     public int delete(BigInteger id) { return mapper.delete(id, (int) (System.currentTimeMillis() / 1000)); }
 
 }

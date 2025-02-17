@@ -1,4 +1,4 @@
-package com.example.multi.server;
+package com.example.multi.service;
 
 
 import com.example.multi.dto.GoodsDTO;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.math.BigInteger;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,10 +21,7 @@ public class GoodsService {
     private CategoryMapper categoryMapper;
 
     // 商品详情
-    public Goods getById(BigInteger id) {
-        return goodsMapper.getById(id);
-
-    }
+    public Goods getById(BigInteger id) {return goodsMapper.getById(id);}
 
     // 获取一条商品数据
     public Goods extractById(BigInteger id) {
@@ -160,9 +156,7 @@ public class GoodsService {
 
     // 商品类目里的所有商品
 
-    public int deleteCategory(BigInteger id){
-        return goodsMapper.deleteCategory(id,(int)(System.currentTimeMillis() / 1000));
-    }
+    public int deleteCategory(BigInteger id){return goodsMapper.deleteCategory(id,(int)(System.currentTimeMillis() / 1000));}
 
 
 
