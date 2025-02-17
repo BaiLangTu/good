@@ -1,9 +1,10 @@
 package com.example.multi.console.controller;
 
-import com.example.multi.VO.LoginPcVO;
+import com.example.multi.app.domain.LoginVO;
 import com.example.multi.console.domain.*;
 import com.example.multi.entity.Category;
 import com.example.multi.entity.Goods;
+import com.example.multi.entity.User;
 import com.example.multi.server.GoodsService;
 import com.example.multi.server.UserService;
 import com.example.multi.server.impl.CategoryServiceImpl;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigInteger;
 
@@ -39,11 +41,42 @@ public class GoodsController {
     private HttpServletResponse response;
 
     @RequestMapping("/user/login")
-    public LoginPcVO login(@RequestParam(name = "phone") String phone,
-                           @RequestParam(name = "password") String password) {
+    public LoginVO login(@RequestParam(name = "phone") String phone,
+                         @RequestParam(name = "password") String password) {
 
-        return userService.loginToPc(phone,password);
+        String sign;
+        User user = null;
+        try {
+            sign = userService.login(phone, password);  // 调用 userService 进行登录验证
+        } catch (RuntimeException e) {
+            return new LoginVO("登录失败: " + e.getMessage(), null, null);  // 登录失败返回错误信息
+        }
+
+        try {
+            // 获取用户信息
+            user = userService.getUserByPhone(phone);  // 获取用户信息
+        } catch (RuntimeException e) {
+            return new LoginVO("获取用户信息失败: " + e.getMessage(), null, null);  // 登录失败返回错误信息
+
+        }
+        LoginDataVO loginDataVO = new LoginDataVO();
+        loginDataVO.setName(user.getName());
+        loginDataVO.setPhone(user.getPhone());
+        loginDataVO.setAvatar(user.getAvatar());
+
+        // 将 sign 存储到浏览器的 cookie 中
+        Cookie cookie = new Cookie("sign", sign);  // 创建 sign 的 cookie
+        cookie.setHttpOnly(true);  // 防止 JavaScript 访问
+        cookie.setMaxAge(60 * 60);  // 设置 cookie 有效期为 1 小时
+        cookie.setPath("/");  // 设置 cookie 的有效路径
+        response.addCookie(cookie);  // 将 cookie 添加到响应中
+
+        LoginVO loginVO = new LoginVO("登录成功", loginDataVO, sign);
+        return loginVO;
+
     }
+
+
 
 
     @RequestMapping("goods/console_list")
@@ -52,13 +85,13 @@ public class GoodsController {
                                        @RequestParam(name = "pageSize") int pageSize,
                                        @RequestParam(name = "sign") String sign) {
 
+        BigInteger userIdFromSign = userService.getUserIdFromSign(sign);
         // 验证用户是否登录
-        if (!userService.validateSign(sign)) {
+        if (!userService.validateSign(sign,userIdFromSign)) {
 
             // 如果没有登录，返回错误信息
             ConsoleListVo errorResponse = new ConsoleListVo();
-            // 从 sign 中获取用户 ID 并验证其是否存在于数据库
-            BigInteger userIdFromSign = userService.getUserIdFromSign(sign);
+
             if (userService.isUserExist(userIdFromSign)==null) {
                 errorResponse.setMassage("用户ID不存在，非法访问数据");
             } else {

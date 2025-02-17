@@ -11,4 +11,12 @@ public class LoginVO {
 
     private LoginDataVO data;
 
+    private String sign;
+
+    public LoginVO(String message, LoginDataVO data, String sign) {
+        this.message = message;
+        this.data = data;
+        this.sign = sign;
+    }
+
 }

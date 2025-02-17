@@ -1,14 +1,19 @@
 package com.example.multi.app.controller;
 
-import com.example.multi.VO.LoginVO;
+import com.example.multi.app.domain.LoginDataVO;
+import com.example.multi.app.domain.LoginVO;
 import com.example.multi.app.domain.RegisterVO;
+import com.example.multi.entity.User;
 import com.example.multi.server.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Cookie;
+import java.math.BigInteger;
 
 
 @RestController
@@ -27,10 +32,11 @@ public class UserController {
                                @RequestParam(required = false) String sign) {
         RegisterVO registerVO = new RegisterVO();
 
-
+        BigInteger userIdFromSign = userService.getUserIdFromSign(sign);
 
         // 判断是否已登录
-        if (sign != null && userService.validateSign(sign)) {
+        if (sign != null && userService.validateSign(sign,userIdFromSign)) {
+
             registerVO.setMessage("已登录，不能进行注册");
             return registerVO;
         }
@@ -64,6 +70,30 @@ public class UserController {
     @RequestMapping("user/login")
     public LoginVO login(@RequestParam(name = "phone") String phone,
                          @RequestParam(name = "password") String password) {
-        return userService.login(phone, password);
+
+        String sign;
+        User user = null;
+        try {
+            sign = userService.login(phone, password);  // 调用 userService 进行登录验证
+        } catch (RuntimeException e) {
+            return new LoginVO("登录失败: " + e.getMessage(), null, null);  // 登录失败返回错误信息
+        }
+
+        try {
+            // 获取用户信息
+            user = userService.getUserByPhone(phone);  // 获取用户信息
+        } catch (RuntimeException e) {
+            return new LoginVO("获取用户信息失败: " + e.getMessage(), null, null);  // 登录失败返回错误信息
+
+        }
+        LoginDataVO loginDataVO = new LoginDataVO();
+        loginDataVO.setUserId(user.getId());
+        loginDataVO.setSign(sign);
+        loginDataVO.setName(user.getName());
+        loginDataVO.setPhone(user.getPhone());
+        loginDataVO.setAvatar(user.getAvatar());
+
+        LoginVO loginVO = new LoginVO("登录成功", loginDataVO, sign);
+        return loginVO;
     }
 }

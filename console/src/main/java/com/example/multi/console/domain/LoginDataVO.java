@@ -1,14 +1,11 @@
-package com.example.multi.VO;
+package com.example.multi.console.domain;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.math.BigInteger;
-
 @Data
 @Accessors(chain = true)
-public class PcData {
-    private BigInteger userId;
+public class LoginDataVO {
 
     private String phone;
 
@@ -18,5 +15,4 @@ public class PcData {
 
     private String avatar;
 
-    private String sign;
 }

@@ -6,6 +6,23 @@
   <component name="ChangeListManager">
     <list default="true" id="af0e807d-c8f7-49d5-9fa0-2c315ff26344" name="Changes" comment="Druid配置">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/multi/app/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/multi/app/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/multi/app/domain/LoginDataVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/multi/app/domain/LoginDataVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/multi/app/domain/LoginVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/multi/app/domain/LoginVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/app/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/target/classes/com/example/multi/app/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/target/classes/com/example/multi/app/controller/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/target/classes/com/example/multi/app/domain/LoginVO.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/target/classes/com/example/multi/app/domain/LoginVO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/console/src/main/java/com/example/multi/console/controller/GoodsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/console/src/main/java/com/example/multi/console/controller/GoodsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/console/src/main/java/com/example/multi/console/domain/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/console/src/main/java/com/example/multi/console/domain/LoginDataVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/console/src/main/java/com/example/multi/console/domain/LoginVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/console/src/main/java/com/example/multi/console/domain/LoginVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module/src/main/java/com/example/multi/VO/LoginPcVO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/module/src/main/java/com/example/multi/VO/LoginVO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/module/src/main/java/com/example/multi/VO/PcData.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/module/src/main/java/com/example/multi/server/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/module/src/main/java/com/example/multi/server/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module/src/main/java/com/example/multi/utility/SignUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/module/src/main/java/com/example/multi/utility/SignUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module/target/classes/com/example/multi/VO/LoginVO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/module/target/classes/com/example/multi/server/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/module/target/classes/com/example/multi/server/UserService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module/target/classes/com/example/multi/utility/SignUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/module/target/classes/com/example/multi/utility/SignUtils.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -1,5 +1,6 @@
-package com.example.multi.console.domain;
+package com.example.multi.app.domain;
 
+import com.example.multi.console.domain.LoginDataVO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -9,6 +10,14 @@ public class LoginVO {
 
     private String message;
 
-    private Login data;
+    private LoginDataVO data;
+
+
+
+    public LoginVO(String message, LoginDataVO data, String sign) {
+        this.message = message;
+        this.data = data;
+
+    }
 
 }

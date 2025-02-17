@@ -31,15 +31,24 @@ public class SignUtils {
     }
 
     // 验证 sign 是否有效
-    public  boolean validateSign(String sign) {
+    public  boolean validateSign(String sign,BigInteger expectedUserId) {
         try {
             // 解码 sign
             byte[] decodedBytes = Base64.getDecoder().decode(sign);
             String decodedString = new String(decodedBytes);
             Sign signObject = new ObjectMapper().readValue(decodedString, Sign.class);
+            // 校验过期时间
+            if (signObject.getExpireTime() < System.currentTimeMillis() * 1000) {
+                return false;  // 如果过期了，返回 false
+            }
 
-            // 验证过期时间
-            return signObject.getExpireTime() > System.currentTimeMillis();
+            // 校验用户 ID
+            if (!signObject.getUserId().equals(expectedUserId)) {
+                return false;  // 如果用户 ID 不匹配，返回 false
+            }
+
+            return true;  // sign 验证通过
+
         } catch (Exception e) {
             return false;
         }
