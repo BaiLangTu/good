@@ -1,0 +1,200 @@
+Index: app/src/main/java/com/example/multi/app/utility/AliOssUtility.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/multi/app/utility/AliOssUtility.java b/module/src/main/java/com/example/multi/utility/AliOssUtility.java
+rename from app/src/main/java/com/example/multi/app/utility/AliOssUtility.java
+rename to module/src/main/java/com/example/multi/utility/AliOssUtility.java
+--- a/app/src/main/java/com/example/multi/app/utility/AliOssUtility.java	(revision bbc3c2670c716526024607ebf8a95be15967f6e2)
++++ b/module/src/main/java/com/example/multi/utility/AliOssUtility.java	(date 1739377491295)
+@@ -1,4 +1,4 @@
+-package com.example.multi.app.utility;
++package com.example.multi.utility;
+ 
+ import com.aliyun.oss.OSS;
+ import com.aliyun.oss.OSSClientBuilder;
+@@ -6,6 +6,7 @@
+ import org.springframework.stereotype.Component;
+ import org.springframework.web.multipart.MultipartFile;
+ 
++
+ import javax.imageio.ImageIO;
+ import java.awt.image.BufferedImage;
+ import java.io.IOException;
+Index: app/src/main/java/com/example/multi/app/controller/GoodsController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.multi.app.controller;\n\nimport com.alibaba.fastjson.JSON;\nimport com.example.multi.app.domain.*;\nimport com.example.multi.app.utility.AliOssUtility;\nimport com.example.multi.app.utility.Utility;\nimport com.example.multi.dto.GoodsDTO;\nimport com.example.multi.entity.Category;\nimport com.example.multi.entity.Goods;\nimport com.example.multi.server.GoodsService;\nimport com.example.multi.server.impl.CategoryServiceImpl;\nimport org.springframework.beans.factory.annotation.Autowired;\nimport org.springframework.web.bind.annotation.RequestMapping;\nimport org.springframework.web.bind.annotation.RequestParam;\nimport org.springframework.web.bind.annotation.RestController;\nimport org.springframework.web.multipart.MultipartFile;\nimport java.io.File;\nimport java.io.IOException;\nimport java.math.BigInteger;\nimport java.net.URLDecoder;\nimport java.nio.charset.StandardCharsets;\nimport java.util.*;\nimport java.util.stream.Collectors;\n\n\n@RestController\npublic class GoodsController {\n\n    @Autowired\n    private GoodsService goodsService;\n\n    @Autowired\n    private CategoryServiceImpl categoryService;\n\n    @RequestMapping(\"/goods/category_list\")\n    public ParentVo getCategoryAll() {\n\n        // 获取父类目数据\n        List<Category> parentCategory = categoryService.getByParentAll();\n\n        // 创建父类目展示对象\n        List<ParentCategoryV0> parentCategoryV0List = new ArrayList<>();\n        for (Category parentCategories : parentCategory) {\n            ParentCategoryV0 parentCategoryV0 = new ParentCategoryV0();\n            parentCategoryV0.setId(parentCategories.getId());\n            parentCategoryV0.setName(parentCategories.getName());\n            parentCategoryV0.setImage(parentCategories.getImage());\n\n            // 获取父类目下子类目数据\n            List<Category> categoryList = categoryService.getCategoryAll(parentCategories.getId());\n\n            // 创建子类目展示对象\n            List<CategoryItemVo> categoryItemVoList = new ArrayList<>();\n            for (Category category : categoryList) {\n                CategoryItemVo categoryItemVo = new CategoryItemVo();\n                categoryItemVo.setId(category.getId());\n                categoryItemVo.setParentId(category.getParentId());\n                categoryItemVo.setName(category.getName());\n                categoryItemVo.setImage(category.getImage());\n                categoryItemVoList.add(categoryItemVo);\n\n            }\n            // 子类目列表放在父类目中\n            parentCategoryV0.setCategoryList(categoryItemVoList);\n\n            // 将parentCategoryV0内容添加到parentCategoryV0List列表\n            parentCategoryV0List.add(parentCategoryV0);\n\n        }\n\n        ParentVo parentVo = new ParentVo();\n        parentVo.setParentList(parentCategoryV0List);\n        return parentVo;\n\n    }\n\n    @RequestMapping(\"/goods/list\")\n    public GoodsVo getGoodsAll(@RequestParam(name = \"keyword\", required = false) String keyword,\n                               @RequestParam(name = \"wp\", required = false) String wp) {\n\n        int page;\n        int pageSize;\n        String name;\n\n        if (wp != null) {\n            // Base64解码\n            String decodedWp = URLDecoder.decode(wp, StandardCharsets.UTF_8);\n\n            byte[] decodedBytes = Base64.getDecoder().decode(decodedWp);\n            String jsonString = new String(decodedBytes, StandardCharsets.UTF_8);\n\n            String decodeWp = URLDecoder.decode(jsonString, StandardCharsets.UTF_8);\n            System.out.println(\"JSON string: \" + decodeWp);\n\n            // 解析 JSON 字符串为 Wp 对象\n            Wp wpJson = JSON.parseObject(decodeWp, Wp.class);\n            page = wpJson.getPage();\n            pageSize = wpJson.getPageSize();\n            name = wpJson.getName();\n        } else {\n            page = 1;\n            pageSize = 10;\n            name = keyword;\n\n        }\n\n        // 获取商品数据\n        List<Goods> goodsList = goodsService.getAllGoodsInfo(name, page, pageSize);\n\n        // 创建商品展示对象列表\n        List<GoodsItemVo> goodsVoList = new ArrayList<>();\n\n        // 获取商品分类id\n//        List<BigInteger> ids = new ArrayList<>();\n//        for (Goods goods : goodsList) {\n//            ids.add(goods.getCategoryId());\n//        }\n\n        // 获取商品分类id\n        List<BigInteger> ids = goodsList.stream()\n                .map(Goods::getCategoryId)  // 提取每个商品的分类ID\n                .collect(Collectors.toList());  // 将结果收集到一个List中\n\n\n        List<Category> categories = categoryService.getByIds(ids);\n\n        // 创建 HashMap\n        Map<BigInteger, String> categoryMap = new HashMap<>();\n        // 循环分类列表\n        for (Category category : categories) {\n\n            // 上传HashMap的键值对\n            categoryMap.put(category.getId(), category.getName());\n        }\n\n        // 遍历商品列表，将每个商品转换为 goodsItemVO\n        for (Goods goods : goodsList) {\n\n            GoodsItemVo goodsItemVo = new GoodsItemVo();\n\n            // 判断类目id是否为空，若为空跳过商品，若不为空则在map里获取类目信息\n            String categoryName = categoryMap.get(goods.getCategoryId());\n            ;\n            if (categoryName == null) {\n                continue;\n            }\n\n            // 将轮播图图片用 “ $ ” 连接\n            String[] images = goods.getGoodsImages().split(\"\\\\$\");\n\n            Utility utility = new Utility();\n\n            // 获取图片信息，包含 AR 和 URL\n            ImageInfo imageInfo = utility.getImageInfo(images[0]);\n\n\n\n            goodsItemVo.setId(goods.getId())\n                    .setCategoryName(categoryName)\n                    .setGoodsImage(imageInfo)\n                    .setTitle(goods.getTitle())\n                    .setPrice(goods.getPrice())\n                    .setSales(goods.getSales());\n            goodsVoList.add(goodsItemVo);\n\n        }\n\n        //创建对象设置商品列表最终返回\n        GoodsVo goodsVo = new GoodsVo();\n        Utility utility = new Utility();\n        goodsVo.setList(goodsVoList);\n\n        // 判断是否是最后一页（分页结束），如果当前页获取到的商品数量小于每页数量说明分页结束\n        Boolean isEnd = goodsList.size() < pageSize;\n        goodsVo.setIsEnd(isEnd);\n\n        String nextWp = utility.encodeWp(page + 1, pageSize, name); // 自动生成下一页\n        goodsVo.setWP(nextWp);\n\n        return goodsVo;\n\n    }\n\n    @RequestMapping(\"/goods/new_list\")\n    public GoodsVo getGoodsList(@RequestParam(name = \"keyword\", required = false) String keyword,\n                                @RequestParam(name = \"wp\", required = false) String wp) {\n\n        int page;\n        int pageSize;\n        String name;\n\n        if (wp != null) {\n            // Base64解码\n            String decodedWp = URLDecoder.decode(wp, StandardCharsets.UTF_8);\n\n            byte[] decodedBytes = Base64.getDecoder().decode(decodedWp);\n            String jsonString = new String(decodedBytes, StandardCharsets.UTF_8);\n\n            String decodeWp = URLDecoder.decode(jsonString, StandardCharsets.UTF_8);\n            System.out.println(\"JSON string: \" + decodeWp);\n\n            // 解析 JSON 字符串为 Wp 对象\n            Wp wpJson = JSON.parseObject(decodeWp, Wp.class);\n            page = wpJson.getPage();\n            pageSize = wpJson.getPageSize();\n            name = wpJson.getName();\n        } else {\n            page = 1;\n            pageSize = 10;\n            name = keyword;\n\n        }\n\n        // 获取商品数据\n        List<GoodsDTO> goodsList = goodsService.getAllGoods(name, page, pageSize);\n\n        // 创建商品展示对象列表\n        List<GoodsItemVo> goodsVoList = new ArrayList<>();\n\n        // 遍历商品列表，将每个商品转换为 goodsItemVO\n        for (GoodsDTO goodsDTO : goodsList) {\n\n            GoodsItemVo goodsItemVo = new GoodsItemVo();\n\n            // 将轮播图图片用 “ $ ” 连接\n            String[] images = goodsDTO.getGoodsImages().split(\"\\\\$\");\n\n\n            Utility utility = new Utility();\n\n            // 获取图片信息，包含 AR 和 URL\n            ImageInfo imageInfo = utility.getImageInfo(images[0]);\n\n\n            goodsItemVo.setId(goodsDTO.getId())\n                    .setCategoryName(goodsDTO.getCategoryName())\n                    .setGoodsImage(imageInfo)\n                    .setTitle(goodsDTO.getTitle())\n                    .setPrice(goodsDTO.getPrice())\n                    .setSales(goodsDTO.getSales());\n\n            goodsVoList.add(goodsItemVo);\n\n        }\n\n        //创建对象设置商品列表最终返回\n        GoodsVo goodsVo = new GoodsVo();\n        Utility utility = new Utility();\n        goodsVo.setList(goodsVoList);\n\n        // 判断是否是最后一页（分页结束），如果当前页获取到的商品数量小于每页数量说明分页结束\n        Boolean isEnd = goodsList.size() < pageSize;\n        goodsVo.setIsEnd(isEnd);\n\n        String nextWp = utility.encodeWp(page + 1, pageSize, name); // 自动生成下一页\n        goodsVo.setWP(nextWp);\n\n        return goodsVo;\n\n    }\n\n    @RequestMapping(\"/goods/info\")\n    public GoodsInfoVo goodsInfo(@RequestParam(name = \"goodsId\") BigInteger goodsId) {\n        Goods goods = goodsService.getById(goodsId);\n        if (goods == null) {\n            return null;\n        }\n\n        // 类目\n        Category category = categoryService.getById(goods.getCategoryId());\n        String categoryName = category != null ? category.getName() : \"未分类\";\n        String categoryImages = category != null ? category.getImage() : \"未上传类目图\";\n\n        // 创建 GoodsInfoVo 并设置相应的字段\n        GoodsInfoVo goodsInfoVo = new GoodsInfoVo();\n\n        //返回类目名和类目图\n        goodsInfoVo.setCategoryName(categoryName);\n        goodsInfoVo.setCategoryImage(categoryImages);\n\n        // 设置商品图片轮播图，将商品图片字符串转换为 List\n        String[] imagesArray = goods.getGoodsImages().split(\"\\\\$\");\n        goodsInfoVo.setGoodsImages(Arrays.asList(imagesArray));\n        // 返回商品信息\n        goodsInfoVo.setSource(goods.getSource());\n        goodsInfoVo.setPrice(goods.getPrice());\n        goodsInfoVo.setSales(goods.getSales());\n        goodsInfoVo.setGoodsName(goods.getGoodsName());\n        goodsInfoVo.setSevenDayReturn(goods.getSevenDayReturn());\n        goodsInfoVo.setGoodsDetails(goods.getGoodsDetails());\n        return goodsInfoVo;\n    }\n\n    // 直接在代码中指定文件上传路径\n    private static final String UPLOAD_DIR = \"/Users/liuzefeng/Documents/JavaWeb/good/app/image\";  // 保存文件的目录\n\n    // 上传图片接口\n    @RequestMapping(\"/upload\")\n    public String uploadImage(@RequestParam(\"file\") MultipartFile file) {\n\n        // 获取原始文件名\n        String originalFilename = file.getOriginalFilename();\n\n        // 生成唯一文件名，避免文件重名\n        String newFileName = UUID.randomUUID().toString() + \"_\" + originalFilename;\n\n        // 定义文件保存的路径\n        File dest = new File(UPLOAD_DIR + newFileName);\n\n        // 如果文件夹不存在，创建文件夹\n        if (!dest.getParentFile().exists()) {\n            dest.getParentFile().mkdirs();\n        }\n\n        // 保存文件到本地\n        try {\n            file.transferTo(dest);\n        } catch (IOException e) {\n            throw new RuntimeException(e);\n        }\n\n        // 返回文件的访问路径\n        return \"文件上传成功，文件访问路径为:\" + newFileName;\n    }\n\n    @Autowired\n    private AliOssUtility aliOssUtility;\n\n    @RequestMapping(\"/uploadImage\")\n    public String uploadImages(@RequestParam(\"file\") MultipartFile file) {\n\n        return \"上传成功,图片地址：\"+aliOssUtility.uploadImage(file);\n    }\n\n    @RequestMapping(\"/uploadVideo\")\n    public String uploadVideo(@RequestParam(\"file\") MultipartFile file) {\n\n        return \"上传成功，视频地址:\"+aliOssUtility.uploadVideo(file);\n    }\n\n    @RequestMapping(\"/uploadFile\")\n    public String uploadFile(@RequestParam(\"file\") MultipartFile file) {\n\n        return \"上传成功，文件地址:\"+aliOssUtility.uploadFile(file);\n    }\n\n}\n\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/multi/app/controller/GoodsController.java b/app/src/main/java/com/example/multi/app/controller/GoodsController.java
+--- a/app/src/main/java/com/example/multi/app/controller/GoodsController.java	(revision bbc3c2670c716526024607ebf8a95be15967f6e2)
++++ b/app/src/main/java/com/example/multi/app/controller/GoodsController.java	(date 1739378225745)
+@@ -2,13 +2,15 @@
+ 
+ import com.alibaba.fastjson.JSON;
+ import com.example.multi.app.domain.*;
+-import com.example.multi.app.utility.AliOssUtility;
+-import com.example.multi.app.utility.Utility;
++import com.example.multi.utility.AliOssUtility;
++import com.example.multi.utility.Utility;
+ import com.example.multi.dto.GoodsDTO;
+ import com.example.multi.entity.Category;
+ import com.example.multi.entity.Goods;
+ import com.example.multi.server.GoodsService;
+ import com.example.multi.server.impl.CategoryServiceImpl;
++import com.example.multi.wrapper.ImageInfo;
++import com.example.multi.wrapper.Wp;
+ import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.web.bind.annotation.RequestMapping;
+ import org.springframework.web.bind.annotation.RequestParam;
+Index: app/src/main/java/com/example/multi/app/controller/UserController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/multi/app/controller/UserController.java b/app/src/main/java/com/example/multi/app/controller/UserController.java
+new file mode 100644
+--- /dev/null	(date 1739381937404)
++++ b/app/src/main/java/com/example/multi/app/controller/UserController.java	(date 1739381937404)
+@@ -0,0 +1,38 @@
++package com.example.multi.app.controller;
++
++import com.example.multi.app.domain.Register;
++import com.example.multi.entity.User;
++import com.example.multi.server.UserService;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.web.bind.annotation.RequestMapping;
++import org.springframework.web.bind.annotation.RequestParam;
++import org.springframework.web.bind.annotation.RestController;
++import org.springframework.web.multipart.MultipartFile;
++
++@RestController
++public class UserController {
++    @Autowired
++    private UserService userService;
++
++    @RequestMapping("goods/register")
++    public Register register(@RequestParam(name = "phone") String phone,
++                             @RequestParam(name = "password") String password,
++                             @RequestParam(name = "name") String name,
++                             @RequestParam(name = "avatar") MultipartFile avatar) {
++        Register register = new Register();
++        // 用户是否存在
++        if (userService.userExist(phone)) {
++            register.setMessage("该用户帐号已注册过");
++            return register;
++        }
++
++
++        int result = userService.register(phone, password, name, avatar);
++        if (result == 1) {
++            register.setMessage("注册成功");
++        } else {
++            register.setMessage("注册失败");
++        }
++        return register;
++    }
++}
+Index: app/src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># ??? ??\nspring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver\nspring.datasource.url=jdbc:mysql://localhost:3306/xiaobai_Mall?allowPublicKeyRetrieval=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true&useAffectedRows=true\nspring.datasource.username=root\nspring.datasource.password=Aa258369\n\n# mybatis ??\nmybatis.mapper-locations=classpath:mapper/*.xml\nmybatis.configuration.map-underscore-to-camel-case=true\n\nserver.port=8081\n\n# ?????????????\n# ??????????????\nspring.servlet.multipart.max-file-size=100MB\nspring.servlet.multipart.max-request-size=100MB\n\n\n\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/app/src/main/resources/application.properties b/app/src/main/resources/application.properties
+--- a/app/src/main/resources/application.properties	(revision bbc3c2670c716526024607ebf8a95be15967f6e2)
++++ b/app/src/main/resources/application.properties	(date 1739381876569)
+@@ -12,6 +12,7 @@
+ 
+ # ?????????????
+ # ??????????????
++spring.servlet.multipart.enabled=true
+ spring.servlet.multipart.max-file-size=100MB
+ spring.servlet.multipart.max-request-size=100MB
+ 
+Index: console/src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># ??? ??\nspring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver\nspring.datasource.url=jdbc:mysql://localhost:3306/xiaobai_Mall?allowPublicKeyRetrieval=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true&useAffectedRows=true\nspring.datasource.username=root\nspring.datasource.password=Aa258369\n\n# mybatis ??\nmybatis.mapper-locations=classpath:mapper/*.xml\nmybatis.configuration.map-underscore-to-camel-case=true\n\nserver.port=8080\n\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/console/src/main/resources/application.properties b/console/src/main/resources/application.properties
+--- a/console/src/main/resources/application.properties	(revision bbc3c2670c716526024607ebf8a95be15967f6e2)
++++ b/console/src/main/resources/application.properties	(date 1739376867446)
+@@ -8,6 +8,6 @@
+ mybatis.mapper-locations=classpath:mapper/*.xml
+ mybatis.configuration.map-underscore-to-camel-case=true
+ 
+-server.port=8080
++server.port=8083
+ 
+ 
+Index: module/src/main/java/com/example/multi/entity/User.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/module/src/main/java/com/example/multi/entity/User.java b/module/src/main/java/com/example/multi/entity/User.java
+new file mode 100644
+--- /dev/null	(date 1739383031824)
++++ b/module/src/main/java/com/example/multi/entity/User.java	(date 1739383031824)
+@@ -0,0 +1,27 @@
++package com.example.multi.entity;
++
++import lombok.Data;
++import lombok.experimental.Accessors;
++
++@Data
++@Accessors(chain = true)
++public class User {
++
++    private Boolean id;
++
++    private String phone;
++
++    private String password;
++
++    private String salt;
++
++    private String name;
++
++    private String avatar;
++
++    private Integer createdTime;
++
++    private Integer updatedTime;
++
++    private Integer isDeleted;
++}
+Index: module/src/main/java/com/example/multi/mapper/UserMapper.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/module/src/main/java/com/example/multi/mapper/UserMapper.java b/module/src/main/java/com/example/multi/mapper/UserMapper.java
+new file mode 100644
+--- /dev/null	(date 1739383610062)
++++ b/module/src/main/java/com/example/multi/mapper/UserMapper.java	(date 1739383610062)
+@@ -0,0 +1,17 @@
++package com.example.multi.mapper;
++
++import com.example.multi.entity.User;
++import org.apache.ibatis.annotations.Mapper;
++import org.apache.ibatis.annotations.Param;
++import org.apache.ibatis.annotations.Select;
++
++
++@Mapper
++public interface UserMapper {
++
++    int userInsert(@Param("user") User user);
++
++    // 根据帐号查询用户
++    @Select("SELECT * FROM user WHERE phone = #{phone} AND is_deleted = 0")
++    User findByPhone(@Param("phone") String phone);
++}

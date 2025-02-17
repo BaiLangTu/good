@@ -1,0 +1,630 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="af0e807d-c8f7-49d5-9fa0-2c315ff26344" name="Changes" comment="Druid配置">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="spring-beans.schema" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <excluded-from-favorite>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="master" />
+                <branch-info repo="$PROJECT_DIR$" source="main" />
+              </list>
+            </value>
+          </entry>
+          <entry type="REMOTE">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="origin/main" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </excluded-from-favorite>
+    <option name="PUSH_AUTO_UPDATE" value="true" />
+    <option name="PUSH_TAGS">
+      <GitPushTagMode>
+        <option name="argument" value="--tags" />
+        <option name="title" value="All" />
+      </GitPushTagMode>
+    </option>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {}
+}</component>
+  <component name="GitHubPullRequestState">{
+  &quot;prStates&quot;: [
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDON5Fh_c6LInNz&quot;,
+        &quot;number&quot;: 1
+      },
+      &quot;lastSeen&quot;: 1739465552347
+    }
+  ]
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/BaiLangTu/good.git&quot;,
+    &quot;accountId&quot;: &quot;c2253c5e-6bc5-41d4-af7e-ffe4092c05f7&quot;
+  },
+  &quot;recentNewPullRequestHead&quot;: {
+    &quot;server&quot;: {
+      &quot;useHttp&quot;: false,
+      &quot;host&quot;: &quot;github.com&quot;,
+      &quot;port&quot;: null,
+      &quot;suffix&quot;: null
+    },
+    &quot;owner&quot;: &quot;BaiLangTu&quot;,
+    &quot;repository&quot;: &quot;good&quot;
+  }
+}</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$MAVEN_REPOSITORY$/com/baomidou/mybatis-plus-generator/3.5.3/mybatis-plus-generator-3.5.3.jar!/templates/controller.java.ftl" root0="SKIP_INSPECTION" root1="FORCE_HIGHLIGHTING" />
+    <setting file="jar://$MAVEN_REPOSITORY$/com/baomidou/mybatis-plus-generator/3.5.3/mybatis-plus-generator-3.5.3.jar!/templates/entity.java.ftl" root0="SKIP_INSPECTION" root1="FORCE_HIGHLIGHTING" />
+    <setting file="jar://$MAVEN_REPOSITORY$/com/baomidou/mybatis-plus-generator/3.5.3/mybatis-plus-generator-3.5.3.jar!/templates/entity.kt.ftl" root0="SKIP_INSPECTION" root1="FORCE_HIGHLIGHTING" />
+    <setting file="jar://$MAVEN_REPOSITORY$/com/baomidou/mybatis-plus-generator/3.5.3/mybatis-plus-generator-3.5.3.jar!/templates/mapper.java.ftl" root0="SKIP_INSPECTION" root1="FORCE_HIGHLIGHTING" />
+    <setting file="jar://$MAVEN_REPOSITORY$/com/baomidou/mybatis-plus-generator/3.5.3/mybatis-plus-generator-3.5.3.jar!/templates/mapper.xml.ftl" root0="SKIP_INSPECTION" root1="FORCE_HIGHLIGHTING" />
+    <setting file="jar://$MAVEN_REPOSITORY$/com/baomidou/mybatis-plus-generator/3.5.3/mybatis-plus-generator-3.5.3.jar!/templates/service.java.ftl" root0="SKIP_INSPECTION" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/app/src/main/java/com/example/multi/app/controller/GoodsController.java" root0="SKIP_HIGHLIGHTING" />
+    <setting file="jar://$USER_HOME$/Library/Java/JavaVirtualMachines/corretto-17.0.12/Contents/Home/lib/src.zip!/java.base/java/lang/RuntimeException.java" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="$MAVEN_REPOSITORY$" />
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+        <option name="userSettingsFile" value="$USER_HOME$/.m2/settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="2oxu6Up5kN1LFSzXy5l3z2EopqG" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.AESPasswordEncryptor.executor&quot;: &quot;Run&quot;,
+    &quot;Application.AliOSSUtility.executor&quot;: &quot;Debug&quot;,
+    &quot;Application.ApiApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.CodeGenerator (1).executor&quot;: &quot;Run&quot;,
+    &quot;Application.CodeGenerator.executor&quot;: &quot;Debug&quot;,
+    &quot;Application.DbPasswordCallback.executor&quot;: &quot;Run&quot;,
+    &quot;Application.DbPasswordEncrypt.executor&quot;: &quot;Run&quot;,
+    &quot;Application.StringConcatenationTest.executor&quot;: &quot;Run&quot;,
+    &quot;Application.TestController (1).executor&quot;: &quot;Run&quot;,
+    &quot;Application.TestController (2).executor&quot;: &quot;Run&quot;,
+    &quot;Application.TestController (3).executor&quot;: &quot;Run&quot;,
+    &quot;Application.TestController (4).executor&quot;: &quot;Run&quot;,
+    &quot;Application.TestController.executor&quot;: &quot;Debug&quot;,
+    &quot;Application.com.camp.gen.config.CodeGenerator.executor&quot;: &quot;Debug&quot;,
+    &quot;Application.com.example.multi.app.controller.TestController (1).executor&quot;: &quot;Run&quot;,
+    &quot;Application.com.example.multi.app.controller.TestController (2).executor&quot;: &quot;Run&quot;,
+    &quot;Application.com.example.multi.app.controller.TestController.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.com.example.multi.category in console.executor&quot;: &quot;Debug&quot;,
+    &quot;Maven.Multi [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Multi [compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Multi [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Multi [package].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.app [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.app [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.console [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.good [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.good [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.module [clean].executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Spring Boot.ApiApplication (1).executor&quot;: &quot;Debug&quot;,
+    &quot;Spring Boot.ApiApplication (2).executor&quot;: &quot;Debug&quot;,
+    &quot;Spring Boot.ApiApplication.executor&quot;: &quot;Debug&quot;,
+    &quot;Spring Boot.ConsoleApplication.executor&quot;: &quot;Debug&quot;,
+    &quot;Spring Boot.MultiApplication.executor&quot;: &quot;Debug&quot;,
+    &quot;ToolWindow.Version Control.ShowToolbar&quot;: &quot;false&quot;,
+    &quot;deletionFromPopupRequiresConfirmation&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;17&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/liuzefeng/Documents/JavaWeb/good/module/src/main/java/com/example/multi/VO&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;/Users/liuzefeng/Documents/JavaWeb/good/module/src/main/java/com/example/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql_aurora&quot;
+    ]
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.example.multi.category.service.impl" />
+      <recent name="com.example.multi.console.controller" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/module/src/main/java/com/example/multi/VO" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/module/src/main/java/com/example/multi" />
+      <recent name="$PROJECT_DIR$/console/src/main/resources/templates" />
+      <recent name="$PROJECT_DIR$/console/src/main/resources" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/module/src/main/resources/mapper" />
+      <recent name="$PROJECT_DIR$/console/src/main/java/com/example/multi/console" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.multi.console.controller.domain" />
+      <recent name="com.example.multi.entity" />
+      <recent name="com.example.multi.server" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="KtorApplicationConfigurationType" />
+        <option value="MicronautRunConfigurationType" />
+        <option value="QuarkusRunConfigurationType" />
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.ApiApplication">
+    <configuration name="AESPasswordEncryptor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.example.multi.app.config.AESPasswordEncryptor" />
+      <module name="app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.multi.app.config.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DbPasswordCallback" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.example.multi.app.config.DbPasswordCallback" />
+      <module name="app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.multi.app.config.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DbPasswordEncrypt" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.example.multi.app.config.DbPasswordEncrypt" />
+      <module name="app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.multi.app.config.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestController" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.example.multi.app.controller.TestController" />
+      <module name="app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.multi.app.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestController" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.example.multi.app.controller.TestController" />
+      <module name="app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.multi.app.utility.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestController" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.example.multi.app.controller.TestController" />
+      <module name="app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.multi.app.utility.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ApiApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="app" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.multi.app.ApiApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.multi.app.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ConsoleApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="console" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.multi.console.ConsoleApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.multi.console.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MultiApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="Multi" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.multi.MultiApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.ApiApplication" />
+        <item itemvalue="Application.AESPasswordEncryptor" />
+        <item itemvalue="Application.DbPasswordCallback" />
+        <item itemvalue="Application.DbPasswordEncrypt" />
+        <item itemvalue="Spring Boot.ConsoleApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23339.11" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23339.11" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="af0e807d-c8f7-49d5-9fa0-2c315ff26344" name="Changes" comment="" />
+      <created>1731823372229</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1731823372229</updated>
+      <workItem from="1731823373345" duration="33296000" />
+      <workItem from="1732029190847" duration="4817000" />
+      <workItem from="1732325033342" duration="1000" />
+      <workItem from="1732363995513" duration="11247000" />
+      <workItem from="1732629713998" duration="230000" />
+      <workItem from="1732636970595" duration="7223000" />
+      <workItem from="1732720100238" duration="2060000" />
+      <workItem from="1732722975197" duration="318000" />
+      <workItem from="1732723310845" duration="1380000" />
+      <workItem from="1732724969805" duration="627000" />
+      <workItem from="1732775267112" duration="612000" />
+      <workItem from="1732790391385" duration="13000" />
+      <workItem from="1732797245492" duration="1395000" />
+      <workItem from="1732847209255" duration="51131000" />
+      <workItem from="1732957969328" duration="86048000" />
+      <workItem from="1733752621561" duration="8108000" />
+      <workItem from="1733815936597" duration="303000" />
+      <workItem from="1733816512927" duration="39496000" />
+      <workItem from="1734355649323" duration="51927000" />
+      <workItem from="1734781407916" duration="3384000" />
+      <workItem from="1734790905775" duration="24524000" />
+      <workItem from="1734861387562" duration="38365000" />
+      <workItem from="1734955651584" duration="776000" />
+      <workItem from="1734962860506" duration="59000" />
+      <workItem from="1734964415896" duration="1273000" />
+      <workItem from="1735046163511" duration="1707000" />
+      <workItem from="1735060142150" duration="20620000" />
+      <workItem from="1735356138033" duration="1000" />
+      <workItem from="1735466185218" duration="3846000" />
+      <workItem from="1735631699620" duration="6056000" />
+      <workItem from="1735748433003" duration="2042000" />
+      <workItem from="1735809852432" duration="2495000" />
+      <workItem from="1735812877929" duration="3885000" />
+      <workItem from="1735836860096" duration="52100000" />
+      <workItem from="1736766077020" duration="615000" />
+      <workItem from="1736768661708" duration="32720000" />
+      <workItem from="1737029219376" duration="57283000" />
+      <workItem from="1737305207753" duration="2643000" />
+      <workItem from="1737366014843" duration="2862000" />
+      <workItem from="1737393388752" duration="1607000" />
+      <workItem from="1737554261502" duration="76618000" />
+      <workItem from="1738685169382" duration="31340000" />
+      <workItem from="1738921847990" duration="2400000" />
+      <workItem from="1739116030669" duration="25364000" />
+      <workItem from="1739372778981" duration="1426000" />
+      <workItem from="1739374378770" duration="980000" />
+      <workItem from="1739375363968" duration="7039000" />
+      <workItem from="1739382532339" duration="2921000" />
+      <workItem from="1739385684786" duration="2275000" />
+      <workItem from="1739388083845" duration="12150000" />
+      <workItem from="1739465049059" duration="1241000" />
+      <workItem from="1739466301069" duration="35772000" />
+      <workItem from="1739622974332" duration="14383000" />
+      <workItem from="1739783915080" duration="9272000" />
+      <workItem from="1739796856737" duration="2249000" />
+    </task>
+    <task id="LOCAL-00001" summary="新增注册接口">
+      <option name="closed" value="true" />
+      <created>1739386007681</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1739386007681</updated>
+    </task>
+    <task id="LOCAL-00002" summary="新增app登录接口、console登录接口、更新注册接口">
+      <option name="closed" value="true" />
+      <created>1739462031051</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1739462031051</updated>
+    </task>
+    <task id="LOCAL-00003" summary="新增app登录接口、console登录接口、更新注册接口">
+      <option name="closed" value="true" />
+      <created>1739465636655</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1739465636655</updated>
+    </task>
+    <task id="LOCAL-00004" summary="新增app登录接口、console登录接口、更新注册接口">
+      <option name="closed" value="true" />
+      <created>1739465695353</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1739465695353</updated>
+    </task>
+    <task id="LOCAL-00005" summary="新增app登录接口、console登录接口、更新注册接口">
+      <option name="closed" value="true" />
+      <created>1739466463878</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1739466463878</updated>
+    </task>
+    <task id="LOCAL-00006" summary="新增app登录接口、console登录接口、更新注册接口">
+      <option name="closed" value="true" />
+      <created>1739469284888</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1739469284888</updated>
+    </task>
+    <task id="LOCAL-00007" summary="修改注册登录接口">
+      <option name="closed" value="true" />
+      <created>1739620953362</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1739620953362</updated>
+    </task>
+    <task id="LOCAL-00008" summary="修改注册登录接口">
+      <option name="closed" value="true" />
+      <created>1739622440728</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1739622440728</updated>
+    </task>
+    <task id="LOCAL-00009" summary="修改注册登录接口">
+      <option name="closed" value="true" />
+      <created>1739623111883</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1739623111883</updated>
+    </task>
+    <task id="LOCAL-00010" summary="修改注册登录接口">
+      <option name="closed" value="true" />
+      <created>1739623272657</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1739623272657</updated>
+    </task>
+    <task id="LOCAL-00011" summary="修改注册登录接口">
+      <option name="closed" value="true" />
+      <created>1739782046874</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1739782046874</updated>
+    </task>
+    <task id="LOCAL-00012" summary="修改注册登录接口">
+      <option name="closed" value="true" />
+      <created>1739782471030</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1739782471030</updated>
+    </task>
+    <task id="LOCAL-00013" summary="注册登录">
+      <option name="closed" value="true" />
+      <created>1739783984944</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1739783984944</updated>
+    </task>
+    <task id="LOCAL-00014" summary="配置Druid，SQL的监控、加密的密码">
+      <option name="closed" value="true" />
+      <created>1739795278587</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1739795278587</updated>
+    </task>
+    <task id="LOCAL-00015" summary="配置Druid，SQL的监控、加密的密码">
+      <option name="closed" value="true" />
+      <created>1739795514847</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1739795514847</updated>
+    </task>
+    <task id="LOCAL-00016" summary="配置Druid，SQL的监控、加密的密码">
+      <option name="closed" value="true" />
+      <created>1739795589641</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1739795589641</updated>
+    </task>
+    <task id="LOCAL-00017" summary="配置Druid，SQL的监控、加密的密码">
+      <option name="closed" value="true" />
+      <created>1739795595989</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1739795595989</updated>
+    </task>
+    <task id="LOCAL-00018" summary="配置Druid，SQL的监控、加密的密码">
+      <option name="closed" value="true" />
+      <created>1739795687587</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1739795687587</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Druid配置">
+      <option name="closed" value="true" />
+      <created>1739799591062</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1739799591062</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="false" />
+                </map>
+              </option>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="新增注册接口" />
+    <MESSAGE value="新增注册登录接口" />
+    <MESSAGE value="新增app登录接口、console登录接口、更新注册接口" />
+    <MESSAGE value="修改登录注册接口" />
+    <MESSAGE value="Merge remote-tracking branch 'origin/main'" />
+    <MESSAGE value="修改注册登录接口" />
+    <MESSAGE value="注册登录" />
+    <MESSAGE value="修改登录注册" />
+    <MESSAGE value="SQL的监控" />
+    <MESSAGE value="配置Druid，SQL的监控、加密的密码" />
+    <MESSAGE value="配置Druid" />
+    <MESSAGE value="Druid配置" />
+    <option name="LAST_COMMIT_MESSAGE" value="Druid配置" />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="SpringBootApplicationConfigurationType">
+        <watch expression="    int result = userService.userInsert(phone,password,name,avatar);&#10;        &#10;&#10;        if (result == 1){&#10;            register.setMessage(&quot;注册用户成功&quot;);&#10;        } else {&#10;            register.setMessage(&quot;注册失败&quot;);&#10;&#10;        }" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

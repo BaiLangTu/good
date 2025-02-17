@@ -1,0 +1,377 @@
+Index: app/src/main/java/com/example/multi/app/utility/Utility.java
+===================================================================
+diff --git a/app/src/main/java/com/example/multi/app/utility/Utility.java b/module/src/main/java/com/example/multi/utility/Utility.java
+rename from app/src/main/java/com/example/multi/app/utility/Utility.java
+rename to module/src/main/java/com/example/multi/utility/Utility.java
+--- a/app/src/main/java/com/example/multi/app/utility/Utility.java	(revision bbc3c2670c716526024607ebf8a95be15967f6e2)
++++ b/module/src/main/java/com/example/multi/utility/Utility.java	(date 1739380453648)
+@@ -1,15 +1,14 @@
+-package com.example.multi.app.utility;
++package com.example.multi.utility;
+ 
+ import com.alibaba.fastjson.JSON;
+-import com.example.multi.app.domain.ImageInfo;
+-import com.example.multi.app.domain.Wp;
++import com.example.multi.wrapper.ImageInfo;
++import com.example.multi.wrapper.Wp;
++import org.apache.commons.codec.digest.DigestUtils;
+ 
+-import java.io.UnsupportedEncodingException;
+ import java.net.URLEncoder;
+ import java.nio.charset.StandardCharsets;
++import java.security.SecureRandom;
+ import java.util.Base64;
+-import java.util.HashMap;
+-import java.util.Map;
+ import java.util.regex.Matcher;
+ import java.util.regex.Pattern;
+ 
+@@ -57,4 +56,23 @@
+         // 如果没有匹配到宽高，返回默认值
+         return new ImageInfo(imageUrl, 1.0);  // 默认值
+     }
++
++    // 生成盐
++    public String generateSalt() {
++        SecureRandom random = new SecureRandom();
++        byte[] salt = new byte[16];
++        random.nextBytes(salt);
++        return Base64.getEncoder().encodeToString(salt);  // 返回盐的Base64编码字符串
++    }
++
++    // 将密码和盐一起进行MD5加密
++    public String encryptToMd5(String password, String salt) {
++        // 将密码和盐合并在一起
++        String saltedPassword = password + salt;
++
++        // 使用DigestUtils生成MD5加密
++        return DigestUtils.md5Hex(saltedPassword);
++    }
++
++
+ }
+Index: app/src/main/java/com/example/multi/app/ApiApplication.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.multi.app;\n\nimport org.mybatis.spring.annotation.MapperScan;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\n\n\n\n@SpringBootApplication(scanBasePackages = {\"com.example.multi.app\",\"com.example.multi.server\"})\n@MapperScan(\"com.example.multi.mapper\")\npublic class ApiApplication {\n    public static void main(String[] args) {\n        SpringApplication.run(ApiApplication.class, args);\n\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/multi/app/ApiApplication.java b/app/src/main/java/com/example/multi/app/ApiApplication.java
+--- a/app/src/main/java/com/example/multi/app/ApiApplication.java	(revision bbc3c2670c716526024607ebf8a95be15967f6e2)
++++ b/app/src/main/java/com/example/multi/app/ApiApplication.java	(date 1739378178977)
+@@ -6,7 +6,7 @@
+ 
+ 
+ 
+-@SpringBootApplication(scanBasePackages = {"com.example.multi.app","com.example.multi.server"})
++@SpringBootApplication(scanBasePackages = {"com.example.multi.app","com.example.multi"})
+ @MapperScan("com.example.multi.mapper")
+ public class ApiApplication {
+     public static void main(String[] args) {
+Index: app/src/main/java/com/example/multi/app/domain/ImageInfo.java
+===================================================================
+diff --git a/app/src/main/java/com/example/multi/app/domain/ImageInfo.java b/module/src/main/java/com/example/multi/wrapper/ImageInfo.java
+rename from app/src/main/java/com/example/multi/app/domain/ImageInfo.java
+rename to module/src/main/java/com/example/multi/wrapper/ImageInfo.java
+--- a/app/src/main/java/com/example/multi/app/domain/ImageInfo.java	(revision bbc3c2670c716526024607ebf8a95be15967f6e2)
++++ b/module/src/main/java/com/example/multi/wrapper/ImageInfo.java	(date 1739378225740)
+@@ -1,4 +1,4 @@
+-package com.example.multi.app.domain;
++package com.example.multi.wrapper;
+ 
+ import lombok.Data;
+ import lombok.experimental.Accessors;
+Index: app/src/main/java/com/example/multi/app/domain/Register.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/multi/app/domain/Register.java b/app/src/main/java/com/example/multi/app/domain/Register.java
+new file mode 100644
+--- /dev/null	(date 1739380032848)
++++ b/app/src/main/java/com/example/multi/app/domain/Register.java	(date 1739380032848)
+@@ -0,0 +1,11 @@
++package com.example.multi.app.domain;
++
++import lombok.Data;
++import lombok.experimental.Accessors;
++
++@Data
++@Accessors(chain = true)
++public class Register {
++
++    private String message;
++}
+Index: module/src/main/java/com/example/multi/server/UserService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/module/src/main/java/com/example/multi/server/UserService.java b/module/src/main/java/com/example/multi/server/UserService.java
+new file mode 100644
+--- /dev/null	(date 1739383627642)
++++ b/module/src/main/java/com/example/multi/server/UserService.java	(date 1739383627642)
+@@ -0,0 +1,58 @@
++package com.example.multi.server;
++
++import com.example.multi.entity.User;
++import com.example.multi.mapper.UserMapper;
++import com.example.multi.utility.AliOssUtility;
++import com.example.multi.utility.Utility;
++import org.springframework.stereotype.Service;
++import org.springframework.web.multipart.MultipartFile;
++
++import javax.annotation.Resource;
++
++@Service
++public class UserService {
++    @Resource
++    private UserMapper userMapper;
++
++    public int register(String phone, String password, String name, MultipartFile avatar) {
++
++
++        // 检查用户是否已存在
++        if (userExist(phone)) {
++            return 0;
++        }
++        // 注册上传图像
++        AliOssUtility aliOssUtility = new AliOssUtility();
++        String avatarUrl = aliOssUtility.uploadImage(avatar);
++
++        // 工具类对象
++        Utility utility = new Utility();
++
++        // 生成盐
++        String salt = utility.generateSalt();
++        // MD5加盐加密
++        String encryptPassword = utility.encryptToMd5(password,salt);
++
++
++        int timestamp = (int) (System.currentTimeMillis() / 1000);
++        User user = new User();
++        user.setPhone(phone);
++        user.setPassword(encryptPassword);
++        user.setSalt(salt);
++        user.setName(name);
++        user.setCreatedTime(timestamp);
++        user.setAvatar(avatarUrl);
++        user.setUpdatedTime(timestamp);
++        user.setIsDeleted(0);
++
++        return userMapper.userInsert(user);
++    }
++
++    public Boolean userExist(String phone) {
++
++        return userMapper.findByPhone(phone) != null;
++
++
++    }
++
++}
+Index: module/src/main/resources/mapper/UserMapper.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/module/src/main/resources/mapper/UserMapper.xml b/module/src/main/resources/mapper/UserMapper.xml
+new file mode 100644
+--- /dev/null	(date 1739379938109)
++++ b/module/src/main/resources/mapper/UserMapper.xml	(date 1739379938109)
+@@ -0,0 +1,31 @@
++<?xml version="1.0" encoding="UTF-8" ?>
++
++<!DOCTYPE mapper PUBLIC "-//myvatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
++<mapper namespace="com.example.multi.mapper.UserMapper">
++
++    <insert id="userInsert"
++            parameterType="com.example.multi.entity.User">
++        insert into user (
++        <if test="user.phone != null and user.phone !=''">phone,</if>
++        <if test="user.password != null and user.password !=''">password,</if>
++        <if test="user.name != null and user.name !=''">name,</if>
++        <if test="user.avatar != null and user.avatar !=''">avatar,</if>
++        <if test="user.salt != null and user.salt !=''">salt,</if>
++        <if test="user.createdTime != null and user.createdTime !=''">created_time,</if>
++        <if test="user.updatedTime != null and user.updatedTime !=''">updated_time,</if>
++        is_deleted
++        )
++        values (
++        <if test="user.phone != null and user.phone !=''">#{user.phone},</if>
++        <if test="user.password != null and user.password !=''">#{user.password},</if>
++        <if test="user.name != null and user.name !=''">#{user.name},</if>
++        <if test="user.avatar != null and user.avatar !=''">#{user.avatar},</if>
++        <if test="user.salt != null and user.salt !=''">#{user.salt},</if>
++        <if test="user.createdTime != null and user.createdTime !=''">#{user.createdTime},</if>
++        <if test="user.updatedTime != null and user.updatedTime !=''">#{user.updatedTime},</if>
++        #{user.isDeleted}
++        )
++    </insert>
++
++
++</mapper>
+\ No newline at end of file
+Index: app/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\"\n         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\n    <modelVersion>4.0.0</modelVersion>\n    <parent>\n        <groupId>com.example</groupId>\n        <artifactId>good</artifactId>\n        <version>0.0.1-SNAPSHOT</version>\n    </parent>\n\n    <groupId>org.example</groupId>\n    <artifactId>app</artifactId>\n\n    <dependencies>\n        <dependency>\n            <groupId>org.springframework.boot</groupId>\n            <artifactId>spring-boot-starter-web</artifactId>\n        </dependency>\n        <dependency>\n            <groupId>org.springframework.boot</groupId>\n            <artifactId>spring-boot-starter-test</artifactId>\n            <scope>test</scope>\n        </dependency>\n\n        <dependency>\n            <groupId>org.example</groupId>\n            <artifactId>module</artifactId>\n            <version>0.0.1-SNAPSHOT</version>\n        </dependency>\n\n        <dependency>\n            <groupId>org.mybatis</groupId>\n            <artifactId>mybatis</artifactId>\n            <version>3.5.10</version>\n        </dependency>\n        <dependency>\n            <groupId>org.projectlombok</groupId>\n            <artifactId>lombok</artifactId>\n        </dependency>\n<!--        <dependency>-->\n<!--            <groupId>com.example</groupId>-->\n<!--            <artifactId>console</artifactId>-->\n<!--            <version>0.0.1-SNAPSHOT</version>-->\n<!--            <scope>compile</scope>-->\n<!--        </dependency>-->\n\n        <dependency>\n            <groupId>com.alibaba</groupId>\n            <artifactId>fastjson</artifactId>\n            <version>1.2.47</version>\n        </dependency>\n\n        <dependency>\n            <groupId>com.aliyun.oss</groupId>\n            <artifactId>aliyun-sdk-oss</artifactId>\n            <version>3.17.4</version>\n        </dependency>\n\n        <dependency>\n            <groupId>javax.xml.bind</groupId>\n            <artifactId>jaxb-api</artifactId>\n            <version>2.3.1</version>\n        </dependency>\n        <dependency>\n            <groupId>javax.activation</groupId>\n            <artifactId>activation</artifactId>\n            <version>1.1.1</version>\n        </dependency>\n        <!-- no more than 2.3.3-->\n        <dependency>\n            <groupId>org.glassfish.jaxb</groupId>\n            <artifactId>jaxb-runtime</artifactId>\n            <version>2.3.3</version>\n        </dependency>\n\n\n\n\n\n    </dependencies>\n\n    <build>\n        <plugins>\n            <plugin>\n                <groupId>org.springframework.boot</groupId>\n                <artifactId>spring-boot-maven-plugin</artifactId>\n            </plugin>\n        </plugins>\n    </build>\n\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/pom.xml b/app/pom.xml
+--- a/app/pom.xml	(revision bbc3c2670c716526024607ebf8a95be15967f6e2)
++++ b/app/pom.xml	(date 1739376177188)
+@@ -45,39 +45,6 @@
+ <!--            <scope>compile</scope>-->
+ <!--        </dependency>-->
+ 
+-        <dependency>
+-            <groupId>com.alibaba</groupId>
+-            <artifactId>fastjson</artifactId>
+-            <version>1.2.47</version>
+-        </dependency>
+-
+-        <dependency>
+-            <groupId>com.aliyun.oss</groupId>
+-            <artifactId>aliyun-sdk-oss</artifactId>
+-            <version>3.17.4</version>
+-        </dependency>
+-
+-        <dependency>
+-            <groupId>javax.xml.bind</groupId>
+-            <artifactId>jaxb-api</artifactId>
+-            <version>2.3.1</version>
+-        </dependency>
+-        <dependency>
+-            <groupId>javax.activation</groupId>
+-            <artifactId>activation</artifactId>
+-            <version>1.1.1</version>
+-        </dependency>
+-        <!-- no more than 2.3.3-->
+-        <dependency>
+-            <groupId>org.glassfish.jaxb</groupId>
+-            <artifactId>jaxb-runtime</artifactId>
+-            <version>2.3.3</version>
+-        </dependency>
+-
+-
+-
+-
+-
+     </dependencies>
+ 
+     <build>
+Index: app/src/main/java/com/example/multi/app/domain/Wp.java
+===================================================================
+diff --git a/app/src/main/java/com/example/multi/app/domain/Wp.java b/module/src/main/java/com/example/multi/wrapper/Wp.java
+rename from app/src/main/java/com/example/multi/app/domain/Wp.java
+rename to module/src/main/java/com/example/multi/wrapper/Wp.java
+--- a/app/src/main/java/com/example/multi/app/domain/Wp.java	(revision bbc3c2670c716526024607ebf8a95be15967f6e2)
++++ b/module/src/main/java/com/example/multi/wrapper/Wp.java	(date 1739378225742)
+@@ -1,4 +1,4 @@
+-package com.example.multi.app.domain;
++package com.example.multi.wrapper;
+ 
+ import lombok.Data;
+ import lombok.experimental.Accessors;
+Index: app/src/main/java/com/example/multi/app/domain/GoodsItemVo.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.multi.app.domain;\n\nimport lombok.Data;\nimport lombok.experimental.Accessors;\n\nimport java.math.BigInteger;\n\n@Data\n@Accessors(chain = true)\npublic class GoodsItemVo  {\n\n    private BigInteger id;\n\n    private String categoryName;\n\n    private String title;\n\n    private ImageInfo goodsImage;\n\n    private Integer sales;\n\n    private Integer price;\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/multi/app/domain/GoodsItemVo.java b/app/src/main/java/com/example/multi/app/domain/GoodsItemVo.java
+--- a/app/src/main/java/com/example/multi/app/domain/GoodsItemVo.java	(revision bbc3c2670c716526024607ebf8a95be15967f6e2)
++++ b/app/src/main/java/com/example/multi/app/domain/GoodsItemVo.java	(date 1739378225739)
+@@ -1,5 +1,6 @@
+ package com.example.multi.app.domain;
+ 
++import com.example.multi.wrapper.ImageInfo;
+ import lombok.Data;
+ import lombok.experimental.Accessors;
+ 
+Index: pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd\">\n    <modelVersion>4.0.0</modelVersion>\n\n    <parent>\n        <groupId>org.springframework.boot</groupId>\n        <artifactId>spring-boot-starter-parent</artifactId>\n        <version>2.7.14</version>\n        <relativePath/> <!-- lookup parent from repository -->\n    </parent>\n\n    <groupId>com.example</groupId>\n    <artifactId>good</artifactId>\n    <version>0.0.1-SNAPSHOT</version>\n    <packaging>pom</packaging>\n    <name>good</name>\n    <description>good</description>\n\n    <modules>\n        <module>app</module>\n        <module>console</module>\n        <module>module</module>\n    </modules>\n\n    <properties>\n        <maven.compiler.source>17</maven.compiler.source>\n        <maven.compiler.target>17</maven.compiler.target>\n        <java.version>17</java.version>\n        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\n        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>\n    </properties>\n\n\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pom.xml b/pom.xml
+--- a/pom.xml	(revision bbc3c2670c716526024607ebf8a95be15967f6e2)
++++ b/pom.xml	(date 1739376397759)
+@@ -30,6 +30,51 @@
+         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+     </properties>
++    <dependencies>
++
++        <dependency>
++            <groupId>org.springframework.boot</groupId>
++            <artifactId>spring-boot-starter-web</artifactId>
++        </dependency>
++
++        <dependency>
++            <groupId>org.springframework.boot</groupId>
++            <artifactId>spring-boot-starter-test</artifactId>
++            <scope>test</scope>
++        </dependency>
++
++
++        <dependency>
++        <groupId>com.alibaba</groupId>
++        <artifactId>fastjson</artifactId>
++        <version>1.2.47</version>
++        </dependency>
++
++        <dependency>
++            <groupId>com.aliyun.oss</groupId>
++            <artifactId>aliyun-sdk-oss</artifactId>
++            <version>3.17.4</version>
++        </dependency>
++
++        <dependency>
++            <groupId>javax.xml.bind</groupId>
++            <artifactId>jaxb-api</artifactId>
++            <version>2.3.1</version>
++        </dependency>
++        <dependency>
++            <groupId>javax.activation</groupId>
++            <artifactId>activation</artifactId>
++            <version>1.1.1</version>
++        </dependency>
++        <!-- no more than 2.3.3-->
++        <dependency>
++            <groupId>org.glassfish.jaxb</groupId>
++            <artifactId>jaxb-runtime</artifactId>
++            <version>2.3.3</version>
++        </dependency>
++    </dependencies>
++
++
+ 
+ 
+ </project>
+\ No newline at end of file
+Index: console/src/main/java/com/example/multi/console/ConsoleApplication.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.multi.console;\n\n\nimport org.mybatis.spring.annotation.MapperScan;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\n\n@SpringBootApplication(scanBasePackages = \"com.example.multi\")\n@MapperScan(\"com.example.multi.mapper\")\npublic class ConsoleApplication {\n    public static void main(String[] args) {\n        SpringApplication.run(ConsoleApplication.class, args);\n\n    }\n}\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/console/src/main/java/com/example/multi/console/ConsoleApplication.java b/console/src/main/java/com/example/multi/console/ConsoleApplication.java
+--- a/console/src/main/java/com/example/multi/console/ConsoleApplication.java	(revision bbc3c2670c716526024607ebf8a95be15967f6e2)
++++ b/console/src/main/java/com/example/multi/console/ConsoleApplication.java	(date 1739376891627)
+@@ -5,7 +5,7 @@
+ import org.springframework.boot.SpringApplication;
+ import org.springframework.boot.autoconfigure.SpringBootApplication;
+ 
+-@SpringBootApplication(scanBasePackages = "com.example.multi")
++@SpringBootApplication(scanBasePackages = {"com.example.multi.*"})
+ @MapperScan("com.example.multi.mapper")
+ public class ConsoleApplication {
+     public static void main(String[] args) {
