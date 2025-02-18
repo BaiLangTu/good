@@ -44,32 +44,12 @@ public class GoodsController {
                                        @RequestParam(name = "sign") String sign) {
 
 
-        // 判断是否已登录
-        if (sign == null) {
-            User user = userService.getUserBySign(sign);
-            if (user == null) {
-                // 如果用户未登录，返回提示
-                ConsoleListVo errorResponse = new ConsoleListVo();
-                errorResponse.setMassage("用户未登录，无法访问数据");
-                return errorResponse;
-
-            }
+        // 判断用户是否已登录
+        if (sign == null || userService.getUserBySign(sign) == null) {
+            ConsoleListVo errorResponse = new ConsoleListVo();
+            errorResponse.setMassage("用户未登录，无法访问数据");
+            return errorResponse;
         }
-
-        // 验证用户是否登录
-//        if (!userService.validateSign(sign, userIdFromSign)) {
-//
-//            // 如果没有登录，返回错误信息
-//            ConsoleListVo errorResponse = new ConsoleListVo();
-//
-//            if (userService.getById(userIdFromSign)==null) {
-//                errorResponse.setMassage("用户ID不存在，非法访问数据");
-//            } else {
-//                errorResponse.setMassage("用户未登录，无法访问数据");
-//            }
-//
-//            return errorResponse;
-//        }
 
 
         // 获取商品数据
