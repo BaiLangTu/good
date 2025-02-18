@@ -1,5 +1,6 @@
 package com.example.multi.service;
 
+import com.example.multi.entity.Category;
 import com.example.multi.entity.User;
 import com.example.multi.mapper.UserMapper;
 import com.example.multi.utility.SignUtils;
@@ -7,7 +8,6 @@ import com.example.multi.utility.Utility;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
 import java.math.BigInteger;
 
 @Service
@@ -15,8 +15,7 @@ public class UserService {
     @Resource
     private UserMapper userMapper;
 
-    @Resource
-    private HttpServletResponse response;
+
 
     public String insert(String phone, String password, String name, String avatar) {
 
@@ -30,7 +29,6 @@ public class UserService {
         String salt = Utility.generateSalt();
         // MD5加盐加密
         String encryptPassword = Utility.encryptToMd5(password,salt);
-
 
         int timestamp = (int) (System.currentTimeMillis() / 1000);
         User user = new User();
@@ -50,11 +48,36 @@ public class UserService {
         return sign; // 直接返回 sign
     }
 
-    public Boolean userExist(String phone) {
-
-        return userMapper.findByPhone(phone) != null;
+    // 修改用户
+    public int update(BigInteger id,String name,String password,String avatar) {
+        // 生成盐
+        String salt = Utility.generateSalt();
+        // MD5加盐加密
+        String encryptPassword = Utility.encryptToMd5(password,salt);
+        User user = new User();
+        user.setId(id);
+        user.setName(name);
+        user.setPassword(encryptPassword);
+        int timestamp = (int) (System.currentTimeMillis() / 1000);
+        user.setUpdatedTime(timestamp);
+        user.setIsDeleted(0);
+        return userMapper.update(user);
 
     }
+
+
+    // 根据用户ID查询用户
+    public User getById(BigInteger userId) {
+        return userMapper.getById(userId);
+    }
+
+    public User extractById(BigInteger userId) {return userMapper.getById(userId);}
+
+    // 删除用户
+    public int delete(BigInteger id){ return userMapper.delete(id,(int)(System.currentTimeMillis() / 1000)); }
+
+    // 根据用户查询用户是否存在
+    public Boolean userExist(String phone) { return userMapper.findByPhone(phone) != null; }
 
     // 根据手机号获取用户信息
     public User getUserByPhone(String phone) {
@@ -63,18 +86,13 @@ public class UserService {
     }
 
 
-    // 检查用户是否存在
-    public User getById(BigInteger userId) {
-        return userMapper.getById(userId);
-    }
-
+    // 用户登录
     public String login(String phone, String password) {
 
         User user = userMapper.findByPhone(phone);
         // 加密密码并验证
-        Utility utility = new Utility();
         String salt = user.getSalt();
-        String encryptPassword = utility.encryptToMd5(password, salt);
+        String encryptPassword = Utility.encryptToMd5(password, salt);
 
         if (user == null) {
             throw new RuntimeException("用户不存在");
@@ -92,8 +110,6 @@ public class UserService {
     }
 
 
-
-
     // 从 Sign 中提取 UserId
     public BigInteger getUserIdFromSign(String sign) {
         return SignUtils.getUserIdFromSign(sign);
@@ -103,9 +119,6 @@ public class UserService {
     public boolean validateSign(String sign,BigInteger expectedUserId) {
         return SignUtils.validateSign(sign,expectedUserId);
     }
-
-    // 删除商品
-    public int deleteGoods(BigInteger id){ return userMapper.delete(id,(int)(System.currentTimeMillis() / 1000)); }
 
 
 

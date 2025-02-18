@@ -1,8 +1,9 @@
 package com.example.multi.console.controller;
 
-import com.example.multi.app.domain.LoginVO;
+
 import com.example.multi.console.domain.ConsoleVo;
 import com.example.multi.console.domain.LoginDataVO;
+import com.example.multi.console.domain.LoginVO;
 import com.example.multi.entity.User;
 import com.example.multi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,9 +59,10 @@ public class UserController {
 
     }
 
+
     @RequestMapping("/user/delete")
     public ConsoleVo userDelete (@RequestParam(name = "userId") BigInteger userId) {
-        int result = userService.deleteGoods(userId);
+        int result = userService.delete(userId);
         ConsoleVo consoleVo = new ConsoleVo();
         if( result == 1){
             consoleVo.setMessage("用户删除成功");

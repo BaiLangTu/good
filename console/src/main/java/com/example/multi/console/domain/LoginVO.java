@@ -1,4 +1,4 @@
-package com.example.multi.app.domain;
+package com.example.multi.console.domain;
 
 import com.example.multi.console.domain.LoginDataVO;
 import lombok.Data;
