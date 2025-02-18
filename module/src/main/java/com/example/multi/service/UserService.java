@@ -1,14 +1,17 @@
 package com.example.multi.service;
 
-import com.example.multi.entity.Category;
 import com.example.multi.entity.User;
 import com.example.multi.mapper.UserMapper;
 import com.example.multi.utility.SignUtils;
 import com.example.multi.utility.Utility;
+import com.example.multi.wrapper.Sign;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.math.BigInteger;
+import java.util.Base64;
 
 @Service
 public class UserService {
@@ -79,6 +82,8 @@ public class UserService {
     // 根据用户查询用户是否存在
     public Boolean userExist(String phone) { return userMapper.findByPhone(phone) != null; }
 
+    public Boolean userIsExist(BigInteger userId) {return userMapper.userIsExist(userId);}
+
     // 根据手机号获取用户信息
     public User getUserByPhone(String phone) {
         return userMapper.findByPhone(phone);
@@ -111,13 +116,41 @@ public class UserService {
 
 
     // 从 Sign 中提取 UserId
-    public BigInteger getUserIdFromSign(String sign) {
-        return SignUtils.getUserIdFromSign(sign);
+//    public BigInteger getUserIdFromSign(String sign) {
+//        return SignUtils.getUserIdFromSign(sign);
+//    }
+
+
+    // 根据 sign 获取用户信息
+    public User getUserBySign(String sign) {
+
+            // 解码 sign 获取用户信息
+            byte[] decodedBytes = Base64.getDecoder().decode(sign);
+            String decodedString = new String(decodedBytes);
+
+            Sign signObject = null;
+            try {
+                signObject = new ObjectMapper().readValue(decodedString, Sign.class);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+
+            // 校验 sign 是否有效（检查是否过期）
+            if (signObject.getExpireTime() < System.currentTimeMillis() * 1000) {
+                return null;  // 如果过期，返回 null
+            }
+
+            // 获取用户 ID
+            BigInteger userId = signObject.getUserId();
+
+            // 根据 userId 查询数据库，获取用户信息
+            return userMapper.getById(userId);  // 返回查询到的用户对象
+
     }
 
     // 校验 sign 是否有效
-    public boolean validateSign(String sign,BigInteger expectedUserId) {
-        return SignUtils.validateSign(sign,expectedUserId);
+    public boolean validateSign(String sign,BigInteger userId) {
+        return SignUtils.validateSign(sign, userId);
     }
 
 

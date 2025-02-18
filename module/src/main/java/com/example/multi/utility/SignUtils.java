@@ -1,5 +1,6 @@
 package com.example.multi.utility;
 
+import com.example.multi.entity.User;
 import com.example.multi.wrapper.Sign;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javax.crypto.Mac;
@@ -55,22 +56,39 @@ import java.util.Base64;
     }
 
     // 获取 sign 中的 userId
-    public static BigInteger getUserIdFromSign(String sign) {
-        try {
-            // 解码 sign
-            byte[] decodedBytes = Base64.getDecoder().decode(sign);
-            String decodedString = new String(decodedBytes);
-            Sign signObject = new ObjectMapper().readValue(decodedString, Sign.class);
+//    public static BigInteger getUserIdFromSign(String sign) {
+//        try {
+//            // 解码 sign
+//            byte[] decodedBytes = Base64.getDecoder().decode(sign);
+//            String decodedString = new String(decodedBytes);
+//            Sign signObject = new ObjectMapper().readValue(decodedString, Sign.class);
+//
+//            return signObject.getUserId();
+//        } catch (Exception e) {
+//            throw new RuntimeException("Error extracting userId from sign", e);
+//        }
+//    }
 
-            return signObject.getUserId();
-        } catch (Exception e) {
-            throw new RuntimeException("Error extracting userId from sign", e);
-        }
-    }
+     // UserService.java
+//     public User getUserFromSign(String sign) {
+//         if (sign == null || sign.isEmpty()) {
+//             return null;
+//         }
+//
+//         // 校验签名是否有效
+//         BigInteger userIdFromSign = getUserIdFromSign(sign); // 获取签名中的用户ID
+//         if (userIdFromSign == null || !validateSign(sign, userIdFromSign)) {
+//             return null; // 签名无效，返回null
+//         }
+//
+//         // 签名有效，返回用户信息
+//         return getUserById(userIdFromSign); // 获取用户对象
+//     }
 
 
 
-    // HMAC-SHA256 加密
+
+     // HMAC-SHA256 加密
     private static String encryptWithHmacSHA256(String data) {
         try {
             // 使用 SECRET_KEY 进行加密

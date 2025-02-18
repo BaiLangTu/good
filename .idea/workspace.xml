@@ -4,12 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="af0e807d-c8f7-49d5-9fa0-2c315ff26344" name="Changes" comment="修改注册接口">
+    <list default="true" id="af0e807d-c8f7-49d5-9fa0-2c315ff26344" name="Changes" comment="修改">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/multi/app/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/multi/app/controller/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/console/src/main/java/com/example/multi/console/controller/GoodsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/console/src/main/java/com/example/multi/console/controller/GoodsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/console/src/main/java/com/example/multi/console/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/console/src/main/java/com/example/multi/console/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/console/src/main/java/com/example/multi/console/domain/LoginVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/console/src/main/java/com/example/multi/console/domain/LoginVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module/src/main/java/com/example/multi/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/module/src/main/java/com/example/multi/mapper/UserMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/module/src/main/java/com/example/multi/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/module/src/main/java/com/example/multi/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module/src/main/java/com/example/multi/utility/SignUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/module/src/main/java/com/example/multi/utility/SignUtils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -587,7 +588,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739814815595</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="修改">
+      <option name="closed" value="true" />
+      <created>1739843357357</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1739843357357</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -636,7 +645,8 @@
     <MESSAGE value="Druid配置" />
     <MESSAGE value="修改登录接口" />
     <MESSAGE value="修改注册接口" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改注册接口" />
+    <MESSAGE value="修改" />
+    <option name="LAST_COMMIT_MESSAGE" value="修改" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

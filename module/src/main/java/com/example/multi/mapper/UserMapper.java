@@ -34,6 +34,8 @@ public interface UserMapper {
     @Update("update user set is_deleted = 1,updated_time = #{time} where id=#{id} limit 1")
     int delete(@Param("id") BigInteger id, @Param("time") Integer time);
 
+    @Select(" SELECT COUNT(*) > 0 FROM users WHERE user_id = #{userId}")
+    boolean userIsExist(@Param("userId") BigInteger userId);
 
 
 
