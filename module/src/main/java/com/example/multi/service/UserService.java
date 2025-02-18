@@ -115,11 +115,6 @@ public class UserService {
     }
 
 
-    // 从 Sign 中提取 UserId
-//    public BigInteger getUserIdFromSign(String sign) {
-//        return SignUtils.getUserIdFromSign(sign);
-//    }
-
 
     // 根据 sign 获取用户信息
     public User getUserBySign(String sign) {
@@ -147,12 +142,6 @@ public class UserService {
             return userMapper.getById(userId);  // 返回查询到的用户对象
 
     }
-
-    // 校验 sign 是否有效
-    public boolean validateSign(String sign,BigInteger userId) {
-        return SignUtils.validateSign(sign, userId);
-    }
-
 
 
 }
